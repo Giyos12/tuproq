@@ -1,10 +1,14 @@
 from django.utils import timezone
 from rest_framework.response import Response
-from rest_framework.viewsets import ViewSet
-from modul.models import Weather7Daily, Weather24Hourly
-from modul.serializers import Weather3DailySerializer, Weather24HourlySerializer
+from rest_framework.viewsets import ViewSet, ModelViewSet
+from modul.models import Weather7Daily, Weather24Hourly, Prediction, Modul
+from uath.models import Model
+from modul.serializers import Weather3DailySerializer, Weather24HourlySerializer, PredictionSerializer, ModulSerializer
 import requests
 from django.http import JsonResponse
+from modul.utils import dl_predict, ml_predict
+from uath.permissions import IsAdmin, IsPowerUser
+from rest_framework import permissions
 
 
 class Weather3DailyModelViewSet(ViewSet):
@@ -23,6 +27,18 @@ class Weather24HourlyModelViewSet(ViewSet):
     def list(self, request, *args, **kwargs):
         serializer = self.serializer_class(self.queryset, many=True)
         return Response(serializer.data, status=200)
+
+
+class PredictionModulViewSet(ModelViewSet):
+    queryset = Prediction.objects.all()
+    serializer_class = PredictionSerializer
+    permission_classes = [permissions.IsAuthenticated, IsAdmin | IsPowerUser]
+
+
+class ModulModelViewSet(ModelViewSet):
+    permission_classes = [permissions.IsAuthenticated, IsAdmin]
+    queryset = Modul.objects.all()
+    serializer_class = ModulSerializer
 
 
 def get_weekly_weather(request):
@@ -69,3 +85,12 @@ def get_hourly_weather(request):
         return JsonResponse({'success': 'Success'}, status=200)
     else:
         return JsonResponse({'error': 'weather error'}, status=400)
+
+
+def get_prediction(request):
+    active_model = Model.objects.filter(order=0).first()
+    if active_model.is_dl:
+        dl_predict(active_model.model, request.data)
+    else:
+        ml_predict(active_model.model, request.data)
+    return JsonResponse({'success': 'Success'}, status=200)
