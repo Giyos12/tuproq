@@ -53,3 +53,5 @@ db.sqlite3
 media_root
 mirzoobod.geojson
 **/migrations/**
+!**/migrations
+!**/migrations/__init__.py
