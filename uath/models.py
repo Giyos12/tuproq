@@ -68,3 +68,4 @@ class Model(models.Model):
     file4norm = models.FileField(upload_to=custom_upload_path4norm, blank=True, null=True)
     file5norm = models.FileField(upload_to=custom_upload_path5norm, blank=True, null=True)
     order = models.IntegerField(default=0)
+    is_dl = models.BooleanField(default=False)
