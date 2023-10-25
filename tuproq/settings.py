@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'modul',
 
     # 3rd party
+    'apscheduler',
     'corsheaders',
     'rest_framework',
 
@@ -145,6 +146,21 @@ MEDIA_ROOT = BASE_DIR / 'media_root'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
+
+SCHEDULER_OPS = {
+    'default': {
+        'type': 'threadpool',
+        'threadpool.max_workers': 20,
+    },
+    'scheduler': {
+        'type': 'background',
+        'alias': 'default',
+    },
+    'job_defaults': {
+        'coalesce': False,
+        'max_instances': 3,
+    },
+}
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
