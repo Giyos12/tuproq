@@ -4,7 +4,7 @@ from uath.models import Model
 
 
 def custom_time():
-    return timezone.now() + timezone.timedelta(hours=5)
+    return timezone.now()
 
 
 class Weather7Daily(models.Model):
