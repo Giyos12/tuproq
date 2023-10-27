@@ -11,7 +11,7 @@
 #     return weather_data
 # import requests
 # import json
-from datetime import date
+# from datetime import date
 #
 # def get_weather(api_key, city):
 #     # get 3 Daily weather information
@@ -49,7 +49,7 @@ from datetime import date
 #
 # print("\nSoatlik havo ma'lumotlari:")
 # print(hourly)
-import requests
+# import requests
 # import time
 #
 #
@@ -93,46 +93,53 @@ import requests
 #     print(f"Holat: {weather['Description']}")
 #     print()
 #
+import time
 
-import requests
-
-import requests
-
-def get_three_day_forecast(lat, lon, api_key):
-    base_url = f"https://api.openweathermap.org/data/2.5/onecall"
-    params = {
-        'lat': lat,
-        'lon': lon,
-        'units': 'metric',
-        'exclude': 'current,minutely',
-        'appid': api_key,
-    }
-
-    response = requests.get(base_url, params=params)
-    weather_data = response.json()
-    # print(weather_data)
-    if response.status_code == 200:
-        daily_forecast = weather_data.get('daily')[:7]
-        print(type(daily_forecast[0]))
-        # for day in daily_forecast:
-        #     date = day['dt']
-        #     temperature = day['temp']['day']
-        #     description = day['weather'][0]['description']
-        #     print(f"Ob-xavon kun: {date}")
-        #     print(f"Temperatura (Celsius): {temperature:.1f}°C")
-        #     print(f"Holat: {description}")
-        #     print()
-    else:
-        print(f"Error: {response.status_code}")
-
-# Quyidagi o'zgaruvchilarni o'zingizga mos ravishda o'zgartiring
-lat = 40.5  # Yarim atrofda joylashgan geografik enlem
-lon = 68.75  # Yarim atrofda joylashgan geografik boylam
-api_key = "f5acb50ac7e17eac9343767377447ac4"  # O'zingizning API kalitingiz
-
-get_three_day_forecast(lat, lon, api_key)
+# import requests
+#
+# import requests
+#
+# def get_three_day_forecast(lat, lon, api_key):
+#     base_url = f"https://api.openweathermap.org/data/2.5/onecall"
+#     params = {
+#         'lat': lat,
+#         'lon': lon,
+#         'units': 'metric',
+#         'exclude': 'current,minutely',
+#         'appid': api_key,
+#     }
+#
+#     response = requests.get(base_url, params=params)
+#     weather_data = response.json()
+#     # print(weather_data)
+#     if response.status_code == 200:
+#         daily_forecast = weather_data.get('daily')[:7]
+#         print(type(daily_forecast[0]))
+#         # for day in daily_forecast:
+#         #     date = day['dt']
+#         #     temperature = day['temp']['day']
+#         #     description = day['weather'][0]['description']
+#         #     print(f"Ob-xavon kun: {date}")
+#         #     print(f"Temperatura (Celsius): {temperature:.1f}°C")
+#         #     print(f"Holat: {description}")
+#         #     print()
+#     else:
+#         print(f"Error: {response.status_code}")
+#
+# # Quyidagi o'zgaruvchilarni o'zingizga mos ravishda o'zgartiring
+# lat = 40.5  # Yarim atrofda joylashgan geografik enlem
+# lon = 68.75  # Yarim atrofda joylashgan geografik boylam
+# api_key = "f5acb50ac7e17eac9343767377447ac4"  # O'zingizning API kalitingiz
+#
+# get_three_day_forecast(lat, lon, api_key)
 if __name__ == '__main__':
-    pass
+    import datetime
+
+    timestamp = 1698476400
+    dt = datetime.datetime.utcfromtimestamp(timestamp)
+    formatted_date = dt.strftime('%Y-%m-%d %H:%M:%S')
+
+    print(formatted_date)
 # import requests
 # import json
 # import time

@@ -1,9 +1,12 @@
+import random
+
 from django.utils import timezone
 from rest_framework.response import Response
 from rest_framework.viewsets import ViewSet, ModelViewSet
-from modul.models import Weather7Daily, Weather24Hourly, Prediction, Modul
+from modul.models import Weather7Daily, Weather24Hourly, Prediction, Modul, Counter
 from uath.models import Model
-from modul.serializers import Weather3DailySerializer, Weather24HourlySerializer, PredictionSerializer, ModulSerializer
+from modul.serializers import Weather3DailySerializer, Weather24HourlySerializer, PredictionSerializer, ModulSerializer, \
+    CounterSerializer
 import requests
 from django.http import JsonResponse
 from modul.utils import dl_predict, ml_predict
@@ -53,6 +56,66 @@ class ModulModelViewSet(ModelViewSet):
 
     def destroy(self, request, *args, **kwargs):
         return Response(data={'message': 'method not allowed'}, status=405)
+
+
+class PredictionMassiveViewSet(ViewSet):
+    serializer_class = PredictionSerializer
+    queryset = Prediction.objects.all()
+    pagination_class = 100
+
+    def list(self, request):
+        massive = ['A.Kulbekov', 'G’.Yunusov', 'Y.Oxunboboyev', 'Chinobod', 'Guliston', 'Barlos',
+                   'Shifokor Yangi-hayot', 'M.Ulug’bek', 'Beruniy', 'Mustaqillik 5 yilligi', 'Mirzacho’l', 'Yangiobod',
+                   'Toshkent', 'Dehqonobod', 'T.Axmedov', 'Bahor', 'Oqoltin']
+        for i in massive:
+            Prediction.objects.create(
+                name=i,
+                b1=31113.0,
+                b2=31113.0,
+                b3=31113.0,
+                b4=31113.0,
+                b5=31113.0,
+                b6=31113.0,
+                b7=31113.0,
+                b10=31113.0,
+                gumus=random.randint(1, 5),
+                fosfor=random.randint(1, 5),
+                kaliy=random.randint(1, 5),
+                shorlanish=random.randint(1, 5),
+                namlik=random.randint(1, 5),
+                model=Model.objects.all().first(),
+            )
+        serializer = self.serializer_class(self.queryset, many=True)
+        return Response(data=serializer.data, status=200)
+
+
+class PredictionCounterViewSet(ViewSet):
+    queryset = Counter.objects.all()
+    serializer_class = CounterSerializer
+    pagination_class = 100
+
+    def list(self, request):
+        for i in range(1, 2652):
+            Counter.objects.create(
+                counter_id=i,
+                b1=31113.0,
+                b2=31113.0,
+                b3=31113.0,
+                b4=31113.0,
+                b5=31113.0,
+                b6=31113.0,
+                b7=31113.0,
+                b10=31113.0,
+                gumus=random.randint(1, 5),
+                fosfor=random.randint(1, 5),
+                kaliy=random.randint(1, 5),
+                shorlanish=random.randint(1, 5),
+                namlik=random.randint(1, 5),
+                model=Model.objects.all().first(),
+                massiv=Prediction.objects.all().first(),
+            )
+        serializer = self.serializer_class(self.queryset, many=True)
+        return Response(data=serializer.data, status=200)
 
 
 class WeatherViewSet():
