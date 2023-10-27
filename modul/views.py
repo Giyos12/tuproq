@@ -64,27 +64,27 @@ class PredictionMassiveViewSet(ViewSet):
     pagination_class = 100
 
     def list(self, request):
-        massive = ['A.Kulbekov', 'G’.Yunusov', 'Y.Oxunboboyev', 'Chinobod', 'Guliston', 'Barlos',
-                   'Shifokor Yangi-hayot', 'M.Ulug’bek', 'Beruniy', 'Mustaqillik 5 yilligi', 'Mirzacho’l', 'Yangiobod',
-                   'Toshkent', 'Dehqonobod', 'T.Axmedov', 'Bahor', 'Oqoltin']
-        for i in massive:
-            Prediction.objects.create(
-                name=i,
-                b1=31113.0,
-                b2=31113.0,
-                b3=31113.0,
-                b4=31113.0,
-                b5=31113.0,
-                b6=31113.0,
-                b7=31113.0,
-                b10=31113.0,
-                gumus=random.randint(1, 5),
-                fosfor=random.randint(1, 5),
-                kaliy=random.randint(1, 5),
-                shorlanish=random.randint(1, 5),
-                namlik=random.randint(1, 5),
-                model=Model.objects.all().first(),
-            )
+        # massive = ['A.Kulbekov', 'G’.Yunusov', 'Y.Oxunboboyev', 'Chinobod', 'Guliston', 'Barlos',
+        #            'Shifokor Yangi-hayot', 'M.Ulug’bek', 'Beruniy', 'Mustaqillik 5 yilligi', 'Mirzacho’l', 'Yangiobod',
+        #            'Toshkent', 'Dehqonobod', 'T.Axmedov', 'Bahor', 'Oqoltin']
+        # for i in massive:
+        #     Prediction.objects.create(
+        #         name=i,
+        #         b1=31113.0,
+        #         b2=31113.0,
+        #         b3=31113.0,
+        #         b4=31113.0,
+        #         b5=31113.0,
+        #         b6=31113.0,
+        #         b7=31113.0,
+        #         b10=31113.0,
+        #         gumus=random.randint(1, 5),
+        #         fosfor=random.randint(1, 5),
+        #         kaliy=random.randint(1, 5),
+        #         shorlanish=random.randint(1, 5),
+        #         namlik=random.randint(1, 5),
+        #         model=Model.objects.all().first(),
+        #     )
         serializer = self.serializer_class(self.queryset, many=True)
         return Response(data=serializer.data, status=200)
 
