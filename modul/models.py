@@ -51,6 +51,9 @@ class Prediction(models.Model):
         verbose_name = 'Prediction'
         verbose_name_plural = 'Predictions'
 
+    def __str__(self):
+        return self.name
+
 
 class Counter(models.Model):
     counter_id = models.CharField(max_length=255)

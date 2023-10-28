@@ -102,7 +102,7 @@ class PredictionCounterViewSet(ViewSet):
         ee.Initialize()
         count = 0
         for i in Counter.objects.all():
-            print(count)
+            # print(count)
 
 
             l8 = ee.ImageCollection("LANDSAT/LC08/C01/T1_SR")
@@ -114,9 +114,9 @@ class PredictionCounterViewSet(ViewSet):
                               .first()
                               .clip(aoi))
             json = ffa_db.getInfo()
-            print(float(geoJSON['features'][count]['properties']['Kontur_raq']))
-            print(json['bands'][0]['crs_transform'][2])
-            print(json['bands'][1]['crs_transform'][2])
+            # print(float(geoJSON['features'][count]['properties']['Kontur_raq']))
+            # print(json['bands'][0]['crs_transform'][2])
+            # print(json['bands'][1]['crs_transform'][2])
             count = count + 1
             Counter.objects.filter(counter_id=count).update(**{
                 'counter_id':geoJSON['features'][count]['properties']['Kontur_raq'],
