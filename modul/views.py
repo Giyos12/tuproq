@@ -98,7 +98,7 @@ class PredictionCounterViewSet(ViewSet):
 
     def list(self, request):
         import json
-        geoJSON = json.load(open('konturlar.json'))
+        geoJSON = json.load(open('Konturlar.json'))
         ee.Initialize()
         count = 0
         for i in Counter.objects.all():
