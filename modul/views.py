@@ -59,21 +59,21 @@ class CounterModelViewSet(ModelViewSet):
     serializer_class = CounterSerializer
     permission_classes = [permissions.IsAuthenticated, IsAdmin | IsPowerUser]
 
-    def get_queryset(self):
-        # get last 2653 data
-        return Counter.objects.all().order_by('-id')[:2653]
+    # def get_queryset(self):
+    #     # get last 2653 data
+    #     return Counter.objects.all().order_by('-id')[:2653]
 
     def list(self, request, *args, **kwargs):
         params = request.query_params
         if params.get('name'):
             try:
                 p1 = Prediction.objects.get(name=params.get('name'))
-                queryset2 = self.queryset.filter(massiv=p1)
+                queryset2 = Counter.objects.all().order_by('-id')[:2653].filter(massiv=p1)
             except Prediction.DoesNotExist:
                 return Response(data={'message': 'massiv topilmadi'}, status=404)
             serializer = self.serializer_class(queryset2, many=True)
             return Response(serializer.data, status=200)
-        serializer = self.serializer_class(self.get_queryset(), many=True)
+        serializer = self.serializer_class(Counter.objects.all().order_by('-id')[:2653], many=True)
         return Response(serializer.data, status=200)
 
     def create(self, request, *args, **kwargs):
