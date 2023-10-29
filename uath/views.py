@@ -74,6 +74,7 @@ class ModelAdminViewSet(ModelViewSet):
             return Response(serializer.data, status=201)
         return Response({'detail': 'Bad Request'}, status=400)
 
+    @transaction.atomic
     def update(self, request, *args, **kwargs):
         serialize = ModelSerializer(data=request.data, instance=self.get_object())
         if serialize.is_valid():
@@ -87,6 +88,7 @@ class ModelAdminViewSet(ModelViewSet):
                         i.kaliy = bashorat(i.b1, i.b2, i.b3, i.b4, i.b5, i.b6, i.b7, s1.file3, s1.file3norm)
                         i.mex = bashorat(i.b1, i.b2, i.b3, i.b4, i.b5, i.b6, i.b7, s1.file4, s1.file4norm)
                         i.shorlanish = bashorat(i.b1, i.b2, i.b3, i.b4, i.b5, i.b6, i.b7, s1.file5, s1.file5norm)
+                        i.model = s1
                         i.save()
             return Response(serialize.data, status=200)
         return Response({'detail': 'Bad Request'}, status=400)
