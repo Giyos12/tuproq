@@ -94,17 +94,10 @@ class PredictionCounterViewSet(ViewSet):
 
     # def list(self, request):
     #     b1 = B.objects.filter(date__year='2022', date__month='09', date__day='01').first()
-    #     import json
-    #     geoJSON = json.load(open('Konturlar.json'))
     #     file = b1.file
     #
     #     for i in file.read().decode('utf-8').splitlines()[1:2]:
     #         count = 0
-    #         for j in geoJSON['features']:
-    #             if j['properties']['Kontur_raq'] == i.split(',')[8]:
-    #                 p = j['properties']['massiv']
-    #                 count += 1
-    #                 break
     #
     #         Counter.objects.create(
     #             counter_id=(i.split(',')[8]),
@@ -133,7 +126,7 @@ class PredictionCounterViewSet(ViewSet):
     #         )
     #
     #         return Response(data="hjk", status=200)
-
+    #
 
 # update counter
 # def list(self, request):

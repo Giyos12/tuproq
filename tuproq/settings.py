@@ -163,7 +163,10 @@ SCHEDULER_OPS = {
         'max_instances': 3,
     },
 }
-
+CSRF_COOKIE_SECURE = True
+SESSION_COOKIE_SECURE = True
+CSRF_COOKIE_SAMESITE = 'None'
+SESSION_COOKIE_SAMESITE = 'None'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # google maps api key
