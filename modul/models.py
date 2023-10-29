@@ -1,5 +1,7 @@
 from django.db import models
 from django.utils import timezone
+from rest_framework.exceptions import ValidationError
+
 from uath.models import Model
 
 
@@ -43,7 +45,7 @@ class Prediction(models.Model):
     shorlanish = models.FloatField()
     namlik = models.FloatField()
     mex = models.FloatField(default=1)
-    model = models.ForeignKey(Model, on_delete=models.SET_NULL,null=True, related_name='prediction')
+    model = models.ForeignKey(Model, on_delete=models.SET_NULL, null=True, related_name='prediction')
     created_at = models.DateTimeField(auto_now_add=True)
     is_deleted = models.BooleanField(default=False)
 
@@ -72,7 +74,7 @@ class Counter(models.Model):
     shorlanish = models.FloatField()
     namlik = models.FloatField()
     mex = models.FloatField(default=1)
-    model = models.ForeignKey(Model, on_delete=models.SET_NULL,null=True, related_name='counter')
+    model = models.ForeignKey(Model, on_delete=models.SET_NULL, null=True, related_name='counter')
     created_at = models.DateTimeField(auto_now_add=True)
     massiv = models.ForeignKey(Prediction, on_delete=models.DO_NOTHING, related_name='counter')
     date = models.DateTimeField(default=custom_time)
@@ -81,6 +83,15 @@ class Counter(models.Model):
         db_table = 'counter'
         verbose_name = 'Counter'
         verbose_name_plural = 'Counters'
+
+    def save(
+            self, force_insert=False, force_update=False, using=None, update_fields=None
+    ):
+        counters = Counter.objects.filter(counter_id=self.counter_id)
+        for counter in counters:
+            if self.id != counter.id and self.date.year == counter.date.year and self.date.month == counter.date.month:
+                raise ValidationError("You can't save this model")
+        super().save(force_insert, force_update, using, update_fields)
 
 
 class Modul(models.Model):

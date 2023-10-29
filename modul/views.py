@@ -1,5 +1,7 @@
 import json
 import random
+
+from django.db import transaction
 from django.utils import timezone
 from rest_framework.response import Response
 from rest_framework.viewsets import ViewSet, ModelViewSet
@@ -67,13 +69,15 @@ class CounterModelViewSet(ModelViewSet):
         if params.get('name'):
             try:
                 p1 = Prediction.objects.get(name=params.get('name'))
-                query = Counter.objects.filter(massiv=p1)
-                queryset2 = query.order_by('-id')[:2653]
+                query = Counter.objects.filter(date__year=timezone.now().year, date__month=timezone.now().month).filter(
+                    massiv=p1)
+
             except Prediction.DoesNotExist:
                 return Response(data={'message': 'massiv topilmadi'}, status=404)
-            serializer = self.serializer_class(queryset2, many=True)
+            serializer = self.serializer_class(query, many=True)
             return Response(serializer.data, status=200)
-        serializer = self.serializer_class(Counter.objects.all().order_by('-id')[:2653], many=True)
+        serializer = self.serializer_class(
+            Counter.objects.filter(date__year=timezone.now().year, date__month=timezone.now().month), many=True)
         return Response(serializer.data, status=200)
 
     def create(self, request, *args, **kwargs):
@@ -245,6 +249,7 @@ class BModelViewSet(ModelViewSet):
     queryset = B.objects.all()
     serializer_class = BSerializer
 
+    @transaction.atomic
     def create(self, request, *args, **kwargs):
         serializer = self.serializer_class(data=request.data)
         if serializer.is_valid():
