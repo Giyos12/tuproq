@@ -57,7 +57,7 @@ class Prediction(models.Model):
 
 
 class Counter(models.Model):
-    counter_id = models.CharField(max_length=255)
+    counter_id = models.CharField(max_length=255, unique_for_date='date')
     b1 = models.FloatField()
     b2 = models.FloatField()
     b3 = models.FloatField()
@@ -75,6 +75,7 @@ class Counter(models.Model):
     model = models.ForeignKey(Model, on_delete=models.DO_NOTHING, related_name='counter')
     created_at = models.DateTimeField(auto_now_add=True)
     massiv = models.ForeignKey(Prediction, on_delete=models.DO_NOTHING, related_name='counter')
+    date = models.DateTimeField(default=custom_time)
 
     class Meta:
         db_table = 'counter'
@@ -85,3 +86,9 @@ class Counter(models.Model):
 class Modul(models.Model):
     name = models.CharField(max_length=255, unique=True)
     status = models.BooleanField(default=False)
+
+
+class B(models.Model):
+    name = models.CharField(max_length=255)
+    file = models.FileField(upload_to='csv')
+    date = models.DateTimeField(default=custom_time)

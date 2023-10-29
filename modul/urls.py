@@ -7,5 +7,6 @@ router.register(r'weather24-hourly', views.Weather24HourlyModelViewSet, basename
 router.register(r'module', views.ModulModelViewSet, basename='module')
 router.register(r'counter', views.PredictionCounterViewSet, basename='counter')
 router.register(r'counter-db', views.CounterModelViewSet, basename='counter-db')
+router.register(r'b', views.BModelViewSet, basename='b')
 
 urlpatterns = router.urls

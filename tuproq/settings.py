@@ -27,7 +27,7 @@ DEBUG = True
 ALLOWED_HOSTS = ['*']
 
 CSRF_TRUSTED_ORIGINS = ["https://e11e-195-158-1-149.ngrok-free.app", "http://giyos1.jprq.site", 'http://192.169.0.139',
-                        'http://127.0.0.1:3000', 'http://127.0.0.1:5173']
+                        'http://127.0.0.1:3000', 'http://127.0.0.1:5173', 'https://edaphology-admin.vercel.app']
 CORS_ALLOW_ALL_ORIGINS = True
 # CORS_ALLOWED_ORIGINS = ['http://192.169.0.139', ]
 # Application definition

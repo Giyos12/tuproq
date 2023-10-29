@@ -55,3 +55,4 @@ mirzoobod.geojson
 **/migrations/**
 !**/migrations
 !**/migrations/__init__.py
+modul/csv
