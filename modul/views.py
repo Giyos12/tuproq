@@ -57,7 +57,6 @@ class ModulModelViewSet(ModelViewSet):
 class CounterModelViewSet(ModelViewSet):
     queryset = Counter.objects.all()
     serializer_class = CounterSerializer
-    permission_classes = [permissions.IsAuthenticated, IsAdmin | IsPowerUser]
 
     # def get_queryset(self):
     #     # get last 2653 data
@@ -86,6 +85,11 @@ class CounterModelViewSet(ModelViewSet):
     def destroy(self, request, *args, **kwargs):
         return Response(data={'message': 'method not allowed'}, status=405)
 
+    def update(self, request, *args, **kwargs):
+        if request.user.is_authenticated and (request.user.groups.all()[0].name == 'admin_system' or request.user.groups.all()[0].name == 'power_user'):
+            return super().update(request, *args, **kwargs)
+        return Response(data={'message': 'user not authenticated'}, status=401)
+
 
 class PredictionCounterViewSet(ViewSet):
     queryset = Counter.objects.all()
@@ -97,7 +101,7 @@ class PredictionCounterViewSet(ViewSet):
     #     file = b1.file
     #
     #     for i in file.read().decode('utf-8').splitlines()[1:2]:
-    #         count = 0
+    #
     #
     #         Counter.objects.create(
     #             counter_id=(i.split(',')[8]),
@@ -121,7 +125,7 @@ class PredictionCounterViewSet(ViewSet):
     #                          i.split(',')[5], i.split(',')[6], i.split(',')[7]),
     #             namlik=1,
     #             date=b1.date,
-    #             massiv=Prediction.objects.get(name=p)
+    #             massiv=Counter.objects.filter(i.split(',')[8])
     #
     #         )
     #
