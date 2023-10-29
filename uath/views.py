@@ -221,7 +221,7 @@ class ModelOrderUpdateViewSet(ViewSet):
                 model.save()
             except:
                 pass
-        s1 = Model.objects.filter(order=0)
+        s1 = Model.objects.filter(order=0).first()
         c = Counter.objects.filter(date__year=timezone.now().year, date__month=timezone.now().month)
         if c.exists():
             for i in c:
