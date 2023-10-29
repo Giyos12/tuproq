@@ -8,5 +8,6 @@ router.register(r'prediction', views.PredictionModulViewSet, basename='predictio
 router.register(r'module', views.ModulModelViewSet, basename='module')
 router.register(r'prediction-massive', views.PredictionMassiveViewSet, basename='prediction-massive')
 router.register(r'counter', views.PredictionCounterViewSet, basename='counter')
+router.register(r'counter-db', views.CounterModelViewSet, basename='counter-db')
 
 urlpatterns = router.urls

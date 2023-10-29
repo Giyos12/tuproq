@@ -15,6 +15,7 @@ from rest_framework import permissions
 import ee
 from modul.service import bashorat
 
+
 class Weather3DailyModelViewSet(ViewSet):
     serializer_class = Weather3DailySerializer
     queryset = Weather7Daily.objects.filter(created_at__date=timezone.now().date())
@@ -59,6 +60,24 @@ class ModulModelViewSet(ModelViewSet):
         return Response(data={'message': 'method not allowed'}, status=405)
 
 
+class CounterModelViewSet(ModelViewSet):
+    queryset = Counter.objects.all()
+    serializer_class = CounterSerializer
+
+    def get_queryset(self):
+        # get last 2653 data
+        return Counter.objects.all().order_by('-id')[:2653]
+
+    def create(self, request, *args, **kwargs):
+        return Response(data={'message': 'method not allowed'}, status=405)
+
+    def partial_update(self, request, *args, **kwargs):
+        return Response(data={'message': 'method not allowed'}, status=405)
+
+    def destroy(self, request, *args, **kwargs):
+        return Response(data={'message': 'method not allowed'}, status=405)
+
+
 class PredictionMassiveViewSet(ViewSet):
     serializer_class = PredictionSerializer
     queryset = Prediction.objects.all()
@@ -94,6 +113,7 @@ class PredictionCounterViewSet(ViewSet):
     queryset = Counter.objects.all()
     serializer_class = CounterSerializer
     pagination_class = 100
+
     #
 
     def list(self, request):
@@ -102,44 +122,44 @@ class PredictionCounterViewSet(ViewSet):
         # ee.Initialize()
         count = 0
         for i in Counter.objects.all():
-        #     # print(count)
-        #
-        #
-        #     l8 = ee.ImageCollection("LANDSAT/LC08/C01/T1_SR")
-        #     coors = geoJSON['features'][count]['geometry']['coordinates']
-        #     aoi = ee.Geometry.Polygon(coors)
-        #     ffa_db = ee.Image(ee.ImageCollection("LANDSAT/LC08/C01/T1_SR")
-        #                       .filterBounds(aoi)
-        #                       .filterDate('2021-01-01', '2021-03-02')
-        #                       .first()
-        #                       .clip(aoi))
-        #     json = ffa_db.getInfo()
-        #     # print(float(geoJSON['features'][count]['properties']['Kontur_raq']))
-        #     # print(json['bands'][0]['crs_transform'][2])
-        #     # print(json['bands'][1]['crs_transform'][2])
-        #
-            Counter.objects.filter(id=count+1).update(**{
-                'counter_id':geoJSON['features'][count]['properties']['Kontur_raq'],})
-        #         'b1':(json['bands'][0]['crs_transform'][2])//30,
-        #         'b2':(json['bands'][1]['crs_transform'][2])//30,
-        #         'b3':json['bands'][2]['crs_transform'][2]//30,
-        #         'b4':json['bands'][3]['crs_transform'][2]//30,
-        #         'b5':json['bands'][4]['crs_transform'][2]//30,
-        #         'b6':json['bands'][5]['crs_transform'][2]//30,
-        #         'b7':json['bands'][6]['crs_transform'][2]//30,
-        #         'b10':json['bands'][7]['crs_transform'][2]//30,
-        #         'gumus':bashorat(
-        #             json['bands'][0]['crs_transform'][2]//30,
-        #             json['bands'][1]['crs_transform'][2]//30,
-        #             json['bands'][2]['crs_transform'][2]//30,
-        #             json['bands'][3]['crs_transform'][2]//30,
-        #             json['bands'][4]['crs_transform'][2]//30,
-        #             json['bands'][5]['crs_transform'][2]//30,
-        #             json['bands'][6]['crs_transform'][2]//30,
-        #             json['bands'][7]['crs_transform'][2]//30,
-        #         ),
-        #         'massiv':Prediction.objects.get(name=geoJSON['features'][count]['properties']['massiv'])}
-        #     )
+            #     # print(count)
+            #
+            #
+            #     l8 = ee.ImageCollection("LANDSAT/LC08/C01/T1_SR")
+            #     coors = geoJSON['features'][count]['geometry']['coordinates']
+            #     aoi = ee.Geometry.Polygon(coors)
+            #     ffa_db = ee.Image(ee.ImageCollection("LANDSAT/LC08/C01/T1_SR")
+            #                       .filterBounds(aoi)
+            #                       .filterDate('2021-01-01', '2021-03-02')
+            #                       .first()
+            #                       .clip(aoi))
+            #     json = ffa_db.getInfo()
+            #     # print(float(geoJSON['features'][count]['properties']['Kontur_raq']))
+            #     # print(json['bands'][0]['crs_transform'][2])
+            #     # print(json['bands'][1]['crs_transform'][2])
+            #
+            Counter.objects.filter(id=count + 1).update(**{
+                'counter_id': geoJSON['features'][count]['properties']['Kontur_raq'], })
+            #         'b1':(json['bands'][0]['crs_transform'][2])//30,
+            #         'b2':(json['bands'][1]['crs_transform'][2])//30,
+            #         'b3':json['bands'][2]['crs_transform'][2]//30,
+            #         'b4':json['bands'][3]['crs_transform'][2]//30,
+            #         'b5':json['bands'][4]['crs_transform'][2]//30,
+            #         'b6':json['bands'][5]['crs_transform'][2]//30,
+            #         'b7':json['bands'][6]['crs_transform'][2]//30,
+            #         'b10':json['bands'][7]['crs_transform'][2]//30,
+            #         'gumus':bashorat(
+            #             json['bands'][0]['crs_transform'][2]//30,
+            #             json['bands'][1]['crs_transform'][2]//30,
+            #             json['bands'][2]['crs_transform'][2]//30,
+            #             json['bands'][3]['crs_transform'][2]//30,
+            #             json['bands'][4]['crs_transform'][2]//30,
+            #             json['bands'][5]['crs_transform'][2]//30,
+            #             json['bands'][6]['crs_transform'][2]//30,
+            #             json['bands'][7]['crs_transform'][2]//30,
+            #         ),
+            #         'massiv':Prediction.objects.get(name=geoJSON['features'][count]['properties']['massiv'])}
+            #     )
             count += 1
         serializer = self.serializer_class(self.queryset, many=True)
         return Response(data=serializer.data, status=200)
