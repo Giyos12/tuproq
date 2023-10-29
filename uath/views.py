@@ -3,9 +3,13 @@ import os
 from django.contrib.auth import login, logout
 from django.contrib.auth.models import User, Group
 from django.db import transaction
+from django.utils import timezone
 from rest_framework import views, permissions, response
 from rest_framework.decorators import action
 from rest_framework.response import Response
+
+from modul.models import Counter
+from modul.service import bashorat
 from uath.models import Model
 from uath.authentication import CsrfExemptSessionAuthentication
 from uath.serializers import LoginSerializer, UserSerializer, ModelSerializer, RegisterationSerializer
@@ -73,7 +77,17 @@ class ModelAdminViewSet(ModelViewSet):
     def update(self, request, *args, **kwargs):
         serialize = ModelSerializer(data=request.data, instance=self.get_object())
         if serialize.is_valid():
-            serialize.save()
+            s1 = serialize.save()
+            if s1.order == 0:
+                c = Counter.objects.filter(date__year=timezone.now().year, date__month=timezone.now().month)
+                if c.exists():
+                    for i in c:
+                        i.gumus = bashorat(i.b1, i.b2, i.b3, i.b4, i.b5, i.b6, i.b7, s1.file1, s1.file1norm)
+                        i.fosfor = bashorat(i.b1, i.b2, i.b3, i.b4, i.b5, i.b6, i.b7, s1.file2, s1.file2norm)
+                        i.kaliy = bashorat(i.b1, i.b2, i.b3, i.b4, i.b5, i.b6, i.b7, s1.file3, s1.file3norm)
+                        i.mex = bashorat(i.b1, i.b2, i.b3, i.b4, i.b5, i.b6, i.b7, s1.file4, s1.file4norm)
+                        i.shorlanish = bashorat(i.b1, i.b2, i.b3, i.b4, i.b5, i.b6, i.b7, s1.file5, s1.file5norm)
+                        i.save()
             return Response(serialize.data, status=200)
         return Response({'detail': 'Bad Request'}, status=400)
 
