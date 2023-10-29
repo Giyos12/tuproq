@@ -231,7 +231,6 @@ class ModelOrderUpdateViewSet(ViewSet):
                 i.kaliy = bashorat(i.b1, i.b2, i.b3, i.b4, i.b5, i.b6, i.b7, i.b10, s1.file3, s1.file3norm)
                 i.mex = bashorat(i.b1, i.b2, i.b3, i.b4, i.b5, i.b6, i.b7, i.b10, s1.file4, s1.file4norm)
                 i.shorlanish = bashorat(i.b1, i.b2, i.b3, i.b4, i.b5, i.b6, i.b7, i.b10, s1.file5, s1.file5norm)
-                i.shorlanish = bashorat(i.b1, i.b2, i.b3, i.b4, i.b5, i.b6, i.b7, i.b10, s1.file5, s1.file5norm)
                 i.model = s1
                 i.save()
         return Response({'detail': 'success'}, status=200)
