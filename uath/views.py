@@ -175,7 +175,7 @@ class ModelAdminViewSet(ModelViewSet):
             #             i.shorlanish = bashorat(i.b1, i.b2, i.b3, i.b4, i.b5, i.b6, i.b7, i.b10, s1.file5, s1.file5norm)
             #             i.model = s1
             #             i.save()
-            return Response(ModelSerializer(ob), status=200)
+            return Response(ModelSerializer(ob).data, status=200)
         return Response(data=serializers.errors, status=400)
 
 
