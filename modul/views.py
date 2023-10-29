@@ -97,11 +97,11 @@ class PredictionCounterViewSet(ViewSet):
     #
 
     def list(self, request):
-        # import json
-        # geoJSON = json.load(open('Konturlar.json'))
+        import json
+        geoJSON = json.load(open('Konturlar.json'))
         # ee.Initialize()
-        # count = 0
-        # for i in Counter.objects.all():
+        count = 0
+        for i in Counter.objects.all():
         #     # print(count)
         #
         #
@@ -117,9 +117,9 @@ class PredictionCounterViewSet(ViewSet):
         #     # print(float(geoJSON['features'][count]['properties']['Kontur_raq']))
         #     # print(json['bands'][0]['crs_transform'][2])
         #     # print(json['bands'][1]['crs_transform'][2])
-        #     count = count + 1
-        #     Counter.objects.filter(counter_id=count).update(**{
-        #         'counter_id':geoJSON['features'][count]['properties']['Kontur_raq'],
+        #
+            Counter.objects.filter(counter_id=count).update(**{
+                'counter_id':geoJSON['features'][count]['properties']['Kontur_raq'],})
         #         'b1':(json['bands'][0]['crs_transform'][2])//30,
         #         'b2':(json['bands'][1]['crs_transform'][2])//30,
         #         'b3':json['bands'][2]['crs_transform'][2]//30,
@@ -140,7 +140,7 @@ class PredictionCounterViewSet(ViewSet):
         #         ),
         #         'massiv':Prediction.objects.get(name=geoJSON['features'][count]['properties']['massiv'])}
         #     )
-
+            count += 1
         serializer = self.serializer_class(self.queryset, many=True)
         return Response(data=serializer.data, status=200)
 
