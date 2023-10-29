@@ -63,6 +63,7 @@ class ModulModelViewSet(ModelViewSet):
 class CounterModelViewSet(ModelViewSet):
     queryset = Counter.objects.all()
     serializer_class = CounterSerializer
+    permission_classes = [permissions.IsAuthenticated, IsAdmin | IsPowerUser]
 
     def get_queryset(self):
         # get last 2653 data
