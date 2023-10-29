@@ -78,18 +78,7 @@ class ModelAdminViewSet(ModelViewSet):
     def update(self, request, *args, **kwargs):
         serialize = ModelSerializer(data=request.data, instance=self.get_object())
         if serialize.is_valid():
-            s1 = serialize.save()
-            if s1.order == 0:
-                c = Counter.objects.filter(date__year=timezone.now().year, date__month=timezone.now().month)
-                if c.exists():
-                    for i in c:
-                        i.gumus = bashorat(i.b1, i.b2, i.b3, i.b4, i.b5, i.b6, i.b7, s1.file1, s1.file1norm)
-                        i.fosfor = bashorat(i.b1, i.b2, i.b3, i.b4, i.b5, i.b6, i.b7, s1.file2, s1.file2norm)
-                        i.kaliy = bashorat(i.b1, i.b2, i.b3, i.b4, i.b5, i.b6, i.b7, s1.file3, s1.file3norm)
-                        i.mex = bashorat(i.b1, i.b2, i.b3, i.b4, i.b5, i.b6, i.b7, s1.file4, s1.file4norm)
-                        i.shorlanish = bashorat(i.b1, i.b2, i.b3, i.b4, i.b5, i.b6, i.b7, s1.file5, s1.file5norm)
-                        i.model = s1
-                        i.save()
+            serialize.save()
             return Response(serialize.data, status=200)
         return Response({'detail': 'Bad Request'}, status=400)
 
@@ -232,4 +221,15 @@ class ModelOrderUpdateViewSet(ViewSet):
                 model.save()
             except:
                 pass
+        s1 = Model.objects.filter(order=0)
+        c = Counter.objects.filter(date__year=timezone.now().year, date__month=timezone.now().month)
+        if c.exists():
+            for i in c:
+                i.gumus = bashorat(i.b1, i.b2, i.b3, i.b4, i.b5, i.b6, i.b7, s1.file1, s1.file1norm)
+                i.fosfor = bashorat(i.b1, i.b2, i.b3, i.b4, i.b5, i.b6, i.b7, s1.file2, s1.file2norm)
+                i.kaliy = bashorat(i.b1, i.b2, i.b3, i.b4, i.b5, i.b6, i.b7, s1.file3, s1.file3norm)
+                i.mex = bashorat(i.b1, i.b2, i.b3, i.b4, i.b5, i.b6, i.b7, s1.file4, s1.file4norm)
+                i.shorlanish = bashorat(i.b1, i.b2, i.b3, i.b4, i.b5, i.b6, i.b7, s1.file5, s1.file5norm)
+                i.model = s1
+                i.save()
         return Response({'detail': 'success'}, status=200)
