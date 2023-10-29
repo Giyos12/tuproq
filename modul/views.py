@@ -68,7 +68,8 @@ class CounterModelViewSet(ModelViewSet):
         if params.get('name'):
             try:
                 p1 = Prediction.objects.get(name=params.get('name'))
-                queryset2 = Counter.objects.all().order_by('-id')[:2653].filter(massiv=p1)
+                query = Counter.objects.filter(massiv=p1)
+                queryset2 = query.order_by('-id')[:2653]
             except Prediction.DoesNotExist:
                 return Response(data={'message': 'massiv topilmadi'}, status=404)
             serializer = self.serializer_class(queryset2, many=True)
