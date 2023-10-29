@@ -76,6 +76,8 @@ class CounterModelViewSet(ModelViewSet):
                 return Response(data={'message': 'massiv topilmadi'}, status=404)
             serializer = self.serializer_class(query, many=True)
             return Response(serializer.data, status=200)
+        if params.get('monitor'):
+            pass
         serializer = self.serializer_class(
             Counter.objects.filter(date__year=timezone.now().year, date__month=timezone.now().month), many=True)
         return Response(serializer.data, status=200)
