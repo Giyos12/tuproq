@@ -128,38 +128,50 @@ class ModelAdminViewSet(ModelViewSet):
             if data.get('file1'):
                 os.remove(object.file1.path)
                 object.file1 = data.get('file1')
+                object.save()
             if data.get('file2'):
                 os.remove(object.file2.path)
                 object.file2 = data.get('file2')
+                object.save()
             if data.get('file3'):
                 os.remove(object.file3.path)
                 object.file3 = data.get('file3')
+                object.save()
             if data.get('file4'):
                 os.remove(object.file4.path)
                 object.file4 = data.get('file4')
+                object.save()
             if data.get('file5'):
                 os.remove(object.file5.path)
                 object.file5 = data.get('file5')
+                object.save()
             if data.get('file1norm'):
                 os.remove(object.file1norm.path)
                 object.file1norm = data.get('file1norm')
+                object.save()
             if data.get('file2norm'):
                 os.remove(object.file2norm.path)
                 object.file2norm = data.get('file2norm')
+                object.save()
             if data.get('file3norm'):
                 os.remove(object.file3norm.path)
                 object.file3norm = data.get('file3norm')
+                object.save()
             if data.get('file4norm'):
                 os.remove(object.file4norm.path)
                 object.file4norm = data.get('file4norm')
+                object.save()
             if data.get('file5norm'):
                 os.remove(object.file5norm.path)
                 object.file5norm = data.get('file5norm')
+                object.save()
             if data.get('description'):
                 object.description = data.get('description')
+                object.save()
             if data.get('order'):
                 object.order = data.get('order')
-            ob = object.save()
+                object.save()
+            # ob = object
             # if ob.order == 0:
             #     s1 = Model.objects.filter(order=0).first()
             #     try:
@@ -175,7 +187,7 @@ class ModelAdminViewSet(ModelViewSet):
             #             i.shorlanish = bashorat(i.b1, i.b2, i.b3, i.b4, i.b5, i.b6, i.b7, i.b10, s1.file5, s1.file5norm)
             #             i.model = s1
             #             i.save()
-            return Response(ModelSerializer(ob).data, status=200)
+            return Response(ModelSerializer(object).data, status=200)
         return Response(data=serializers.errors, status=400)
 
 
