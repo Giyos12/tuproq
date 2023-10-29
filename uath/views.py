@@ -159,8 +159,23 @@ class ModelAdminViewSet(ModelViewSet):
                 object.description = data.get('description')
             if data.get('order'):
                 object.order = data.get('order')
-            object.save()
-            return Response(ModelSerializer(object).data, status=200)
+            ob = object.save()
+            # if ob.order == 0:
+            #     s1 = Model.objects.filter(order=0).first()
+            #     try:
+            #         c = Counter.objects.filter(date__year=timezone.now().year, date__month=timezone.now().month)
+            #     except:
+            #         c = None
+            #     if c.exists():
+            #         for i in c:
+            #             i.gumus = bashorat(i.b1, i.b2, i.b3, i.b4, i.b5, i.b6, i.b7, i.b10, s1.file1, s1.file1norm)
+            #             i.fosfor = bashorat(i.b1, i.b2, i.b3, i.b4, i.b5, i.b6, i.b7, i.b10, s1.file2, s1.file2norm)
+            #             i.kaliy = bashorat(i.b1, i.b2, i.b3, i.b4, i.b5, i.b6, i.b7, i.b10, s1.file3, s1.file3norm)
+            #             i.mex = bashorat(i.b1, i.b2, i.b3, i.b4, i.b5, i.b6, i.b7, i.b10, s1.file4, s1.file4norm)
+            #             i.shorlanish = bashorat(i.b1, i.b2, i.b3, i.b4, i.b5, i.b6, i.b7, i.b10, s1.file5, s1.file5norm)
+            #             i.model = s1
+            #             i.save()
+            return Response(ModelSerializer(ob), status=200)
         return Response(data=serializers.errors, status=400)
 
 
