@@ -118,7 +118,7 @@ class PredictionCounterViewSet(ViewSet):
         #     # print(json['bands'][0]['crs_transform'][2])
         #     # print(json['bands'][1]['crs_transform'][2])
         #
-            Counter.objects.filter(id=count).update(**{
+            Counter.objects.filter(id=count+1).update(**{
                 'counter_id':geoJSON['features'][count]['properties']['Kontur_raq'],})
         #         'b1':(json['bands'][0]['crs_transform'][2])//30,
         #         'b2':(json['bands'][1]['crs_transform'][2])//30,
