@@ -43,7 +43,7 @@ class Prediction(models.Model):
     shorlanish = models.FloatField()
     namlik = models.FloatField()
     mex = models.FloatField(default=1)
-    model = models.ForeignKey(Model, on_delete=models.DO_NOTHING, related_name='prediction')
+    model = models.ForeignKey(Model, on_delete=models.SET_NULL,null=True, related_name='prediction')
     created_at = models.DateTimeField(auto_now_add=True)
     is_deleted = models.BooleanField(default=False)
 
@@ -72,7 +72,7 @@ class Counter(models.Model):
     shorlanish = models.FloatField()
     namlik = models.FloatField()
     mex = models.FloatField(default=1)
-    model = models.ForeignKey(Model, on_delete=models.DO_NOTHING, related_name='counter')
+    model = models.ForeignKey(Model, on_delete=models.SET_NULL,null=True, related_name='counter')
     created_at = models.DateTimeField(auto_now_add=True)
     massiv = models.ForeignKey(Prediction, on_delete=models.DO_NOTHING, related_name='counter')
     date = models.DateTimeField(default=custom_time)
