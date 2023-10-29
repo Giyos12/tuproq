@@ -57,7 +57,7 @@ class Prediction(models.Model):
 
 
 class Counter(models.Model):
-    counter_id = models.CharField(max_length=255, unique_for_date='date')
+    counter_id = models.CharField(max_length=255, unique_for_year='date', unique_for_month='date')
     b1 = models.FloatField()
     b2 = models.FloatField()
     b3 = models.FloatField()

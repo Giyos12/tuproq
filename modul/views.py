@@ -86,7 +86,9 @@ class CounterModelViewSet(ModelViewSet):
         return Response(data={'message': 'method not allowed'}, status=405)
 
     def update(self, request, *args, **kwargs):
-        if request.user.is_authenticated and (request.user.groups.all()[0].name == 'admin_system' or request.user.groups.all()[0].name == 'power_user'):
+        if request.user.is_authenticated and (
+                request.user.groups.all()[0].name == 'admin_system' or request.user.groups.all()[
+            0].name == 'power_user'):
             return super().update(request, *args, **kwargs)
         return Response(data={'message': 'user not authenticated'}, status=401)
 
@@ -96,41 +98,43 @@ class PredictionCounterViewSet(ViewSet):
     serializer_class = CounterSerializer
     pagination_class = 100
 
-    # def list(self, request):
-    #     b1 = B.objects.filter(date__year='2022', date__month='09', date__day='01').first()
-    #     file = b1.file
-    #
-    #     for i in file.read().decode('utf-8').splitlines()[1:2]:
-    #
-    #
-    #         Counter.objects.create(
-    #             counter_id=(i.split(',')[8]),
-    #             b1=(i.split(',')[0]),
-    #             b2=(i.split(',')[1]),
-    #             b3=(i.split(',')[2]),
-    #             b4=(i.split(',')[3]),
-    #             b5=(i.split(',')[4]),
-    #             b6=(i.split(',')[5]),
-    #             b7=(i.split(',')[6]),
-    #             b10=(i.split(',')[7]),
-    #             gumus=bashorat((i.split(',')[0]), i.split(',')[1], i.split(',')[2], i.split(',')[3], i.split(',')[4],
-    #                            i.split(',')[5], i.split(',')[6], i.split(',')[7]),
-    #             fosfor=bashorat((i.split(',')[0]), i.split(',')[1], i.split(',')[2], i.split(',')[3], i.split(',')[4],
-    #                             i.split(',')[5], i.split(',')[6], i.split(',')[7]),
-    #             kaliy=bashorat((i.split(',')[0]), i.split(',')[1], i.split(',')[2], i.split(',')[3], i.split(',')[4],
-    #                            i.split(',')[5], i.split(',')[6], i.split(',')[7]),
-    #             shorlanish=bashorat((i.split(',')[0]), i.split(',')[1], i.split(',')[2], i.split(',')[3],
-    #                                 i.split(',')[4], i.split(',')[5], i.split(',')[6], i.split(',')[7]),
-    #             mex=bashorat((i.split(',')[0]), i.split(',')[1], i.split(',')[2], i.split(',')[3], i.split(',')[4],
-    #                          i.split(',')[5], i.split(',')[6], i.split(',')[7]),
-    #             namlik=1,
-    #             date=b1.date,
-    #             massiv=Counter.objects.filter(i.split(',')[8])
-    #
-    #         )
-    #
-    #         return Response(data="hjk", status=200)
-    #
+    def list(self, request):
+        b1 = B.objects.filter(date__year='2022', date__month='09', date__day='01').first()
+        file = b1.file
+        m1 = Model.objects.filter(order='0').first()
+        for i in file.read().decode('utf-8').splitlines()[1:2]:
+            c1 = Counter.objects.filter(counter_id=i.split(',')[8]).first()
+
+            Counter.objects.create(
+                counter_id=(i.split(',')[8]),
+                b1=(i.split(',')[0]),
+                b2=(i.split(',')[1]),
+                b3=(i.split(',')[2]),
+                b4=(i.split(',')[3]),
+                b5=(i.split(',')[4]),
+                b6=(i.split(',')[5]),
+                b7=(i.split(',')[6]),
+                b10=(i.split(',')[7]),
+                gumus=bashorat((i.split(',')[0]), i.split(',')[1], i.split(',')[2], i.split(',')[3], i.split(',')[4],
+                               i.split(',')[5], i.split(',')[6], i.split(',')[7], m1.file1, m1.file1norm),
+                fosfor=bashorat((i.split(',')[0]), i.split(',')[1], i.split(',')[2], i.split(',')[3], i.split(',')[4],
+                                i.split(',')[5], i.split(',')[6], i.split(',')[7], m1.file2, m1.file2norm),
+                kaliy=bashorat((i.split(',')[0]), i.split(',')[1], i.split(',')[2], i.split(',')[3], i.split(',')[4],
+                               i.split(',')[5], i.split(',')[6], i.split(',')[7], m1.file3, m1.file3norm),
+                shorlanish=bashorat((i.split(',')[0]), i.split(',')[1], i.split(',')[2], i.split(',')[3],
+                                    i.split(',')[4], i.split(',')[5], i.split(',')[6], i.split(',')[7], m1.file5,
+                                    m1.file5norm),
+                mex=bashorat((i.split(',')[0]), i.split(',')[1], i.split(',')[2], i.split(',')[3], i.split(',')[4],
+                             i.split(',')[5], i.split(',')[6], i.split(',')[7], m1.file4, m1.file4norm),
+                namlik=1,
+                date=b1.date,
+                massiv=c1.massiv,
+                model=m1,
+
+            )
+
+        return Response(data="hjk", status=200)
+
 
 # update counter
 # def list(self, request):
@@ -240,3 +244,45 @@ def get_prediction(request):
 class BModelViewSet(ModelViewSet):
     queryset = B.objects.all()
     serializer_class = BSerializer
+
+    def create(self, request, *args, **kwargs):
+        serializer = self.serializer_class(data=request.data)
+        if serializer.is_valid():
+            s1 = serializer.save()
+            file = s1.file
+            m1 = Model.objects.filter(order='0').first()
+            for i in file.read().decode('utf-8').splitlines()[1:]:
+                c1 = Counter.objects.filter(counter_id=i.split(',')[8]).first()
+
+                Counter.objects.create(
+                    counter_id=(i.split(',')[8]),
+                    b1=(i.split(',')[0]),
+                    b2=(i.split(',')[1]),
+                    b3=(i.split(',')[2]),
+                    b4=(i.split(',')[3]),
+                    b5=(i.split(',')[4]),
+                    b6=(i.split(',')[5]),
+                    b7=(i.split(',')[6]),
+                    b10=(i.split(',')[7]),
+                    gumus=bashorat((i.split(',')[0]), i.split(',')[1], i.split(',')[2], i.split(',')[3],
+                                   i.split(',')[4],
+                                   i.split(',')[5], i.split(',')[6], i.split(',')[7], m1.file1, m1.file1norm),
+                    fosfor=bashorat((i.split(',')[0]), i.split(',')[1], i.split(',')[2], i.split(',')[3],
+                                    i.split(',')[4],
+                                    i.split(',')[5], i.split(',')[6], i.split(',')[7], m1.file2, m1.file2norm),
+                    kaliy=bashorat((i.split(',')[0]), i.split(',')[1], i.split(',')[2], i.split(',')[3],
+                                   i.split(',')[4],
+                                   i.split(',')[5], i.split(',')[6], i.split(',')[7], m1.file3, m1.file3norm),
+                    shorlanish=bashorat((i.split(',')[0]), i.split(',')[1], i.split(',')[2], i.split(',')[3],
+                                        i.split(',')[4], i.split(',')[5], i.split(',')[6], i.split(',')[7], m1.file5,
+                                        m1.file5norm),
+                    mex=bashorat((i.split(',')[0]), i.split(',')[1], i.split(',')[2], i.split(',')[3], i.split(',')[4],
+                                 i.split(',')[5], i.split(',')[6], i.split(',')[7], m1.file4, m1.file4norm),
+                    namlik=1,
+                    date=s1.date,
+                    massiv=c1.massiv,
+                    model=m1,
+
+                )
+
+        return Response(data=serializer.data, status=200)
