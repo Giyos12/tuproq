@@ -78,11 +78,26 @@ class CounterModelViewSet(ModelViewSet):
             return Response(serializer.data, status=200)
 
         if params.get('monitor'):
-            if params.get('monitor') == '1':
-                query = Counter.objects.filter(date__year=str(int(timezone.now().year) - 1),
-                                               date__month=str(int(timezone.now().month) - 1))
+            if params.get('monitor') == '12':
+                now_month = int(timezone.now().month)
+                if now_month - 1 > 0:
+                    query = Counter.objects.filter(date__year=str(int(timezone.now().year) - 1),
+                                                   date__month=str(int(timezone.now().month) - 1))
+                else:
+                    query = Counter.objects.filter(date__year=str(int(timezone.now().year) - 1),
+                                                   date__month=str(now_month - 1 + 12))
                 serializer = self.serializer_class(query, many=True)
                 return Response(serializer.data, status=200)
+            if params.get('monitor') == '4':
+                now_month = int(timezone.now().month)
+                if now_month - 5 > 0:
+                    query = Counter.objects.filter(date__month=str(now_month - 5))
+                else:
+                    query = Counter.objects.filter(date__year=str(int(timezone.now().year) - 1),
+                                                   date__month=str(now_month - 5 + 12))
+                    serializer = self.serializer_class(query, many=True)
+                    return Response(serializer.data, status=200)
+
         serializer = self.serializer_class(
             Counter.objects.filter(date__year=timezone.now().year, date__month=timezone.now().month), many=True)
         return Response(serializer.data, status=200)
