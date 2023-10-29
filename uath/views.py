@@ -104,6 +104,7 @@ class ModelAdminViewSet(ModelViewSet):
             data = serializers.validated_data
             object = self.get_object()
             if data.get('name'):
+                print(1)
                 # filelar bilan ishlash uchun kerak bo'lgan kodlar
                 directory_path = os.path.dirname(object.file1.path)
                 os.chdir(directory_path)
@@ -189,6 +190,10 @@ class ModelAdminViewSet(ModelViewSet):
             #             i.save()
             return Response(ModelSerializer(object).data, status=200)
         return Response(data=serializers.errors, status=400)
+
+    def retrieve(self, request, *args, **kwargs):
+        objects = Model.objects.filter(id=kwargs['pk']).first()
+        return Response(ModelSerializer(objects).data, status=200)
 
 
 class AddPowerUserViewSet(ModelViewSet):
