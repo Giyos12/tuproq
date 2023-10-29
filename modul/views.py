@@ -161,8 +161,10 @@ class PredictionCounterViewSet(ViewSet):
             #     # print(json['bands'][0]['crs_transform'][2])
             #     # print(json['bands'][1]['crs_transform'][2])
             #
-            Counter.objects.create(counter_id=i['properties']['Kontur_raq'], b1=2, b2=3, b3=4, b4=5, b5=6, b6=7, b7=8,b10=9,
-                                   gumus=9, fosfor=10, kaliy=11, shorlanish=12, mex=13, namlik=14, date=timezone.now(),
+            Counter.objects.create(counter_id=i['properties']['Kontur_raq'], b1=2, b2=3, b3=4, b4=5, b5=6, b6=7, b7=8,
+                                   b10=9,
+                                   gumus=9, fosfor=10, kaliy=11, shorlanish=12, mex=13, namlik=14,
+                                   date=timezone.now() - timezone.timedelta(days=800),
                                    massiv=Prediction.objects.get(name=i['properties']['massiv']),
                                    model=Model.objects.get(order=0))
             #                        b1=1,
