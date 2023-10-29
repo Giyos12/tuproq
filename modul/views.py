@@ -34,6 +34,26 @@ class Weather24HourlyModelViewSet(ViewSet):
         return Response(serializer.data, status=200)
 
 
+class ModulModelViewSet(ModelViewSet):
+    queryset = Modul.objects.all()
+    serializer_class = ModulSerializer
+
+    def create(self, request, *args, **kwargs):
+        return Response(data={'message': 'method not allowed'}, status=405)
+
+    def update(self, request, *args, **kwargs):
+        # IsAuthenticated and IsAdmin working
+        if request.user.is_authenticated and request.user.groups.all()[0].name == 'admin_system':
+            return super().update(request, *args, **kwargs)
+        return Response(data={'message': 'user not authenticated'}, status=401)
+
+    def partial_update(self, request, *args, **kwargs):
+        return Response(data={'message': 'method not allowed'}, status=405)
+
+    def destroy(self, request, *args, **kwargs):
+        return Response(data={'message': 'method not allowed'}, status=405)
+
+
 class CounterModelViewSet(ModelViewSet):
     queryset = Counter.objects.all()
     serializer_class = CounterSerializer
@@ -64,16 +84,6 @@ class CounterModelViewSet(ModelViewSet):
 
     def destroy(self, request, *args, **kwargs):
         return Response(data={'message': 'method not allowed'}, status=405)
-
-
-class PredictionMassiveViewSet(ViewSet):
-    serializer_class = PredictionSerializer
-    queryset = Prediction.objects.all()
-    pagination_class = 100
-
-    def list(self, request):
-        serializer = self.serializer_class(self.queryset, many=True)
-        return Response(data=serializer.data, status=200)
 
 
 class PredictionCounterViewSet(ViewSet):
@@ -107,26 +117,26 @@ class PredictionCounterViewSet(ViewSet):
             #
             Counter.objects.filter(id=count + 1).update(**{
                 'counter_id': geoJSON['features'][count]['properties']['Kontur_raq'],
-            #         'b1':(json['bands'][0]['crs_transform'][2])//30,
-            #         'b2':(json['bands'][1]['crs_transform'][2])//30,
-            #         'b3':json['bands'][2]['crs_transform'][2]//30,
-            #         'b4':json['bands'][3]['crs_transform'][2]//30,
-            #         'b5':json['bands'][4]['crs_transform'][2]//30,
-            #         'b6':json['bands'][5]['crs_transform'][2]//30,
-            #         'b7':json['bands'][6]['crs_transform'][2]//30,
-            #         'b10':json['bands'][7]['crs_transform'][2]//30,
-            #         'gumus':bashorat(
-            #             json['bands'][0]['crs_transform'][2]//30,
-            #             json['bands'][1]['crs_transform'][2]//30,
-            #             json['bands'][2]['crs_transform'][2]//30,
-            #             json['bands'][3]['crs_transform'][2]//30,
-            #             json['bands'][4]['crs_transform'][2]//30,
-            #             json['bands'][5]['crs_transform'][2]//30,
-            #             json['bands'][6]['crs_transform'][2]//30,
-            #             json['bands'][7]['crs_transform'][2]//30,
-            #         ),
-                    'massiv':Prediction.objects.get(name=geoJSON['features'][count]['properties']['massiv'])}
-                )
+                #         'b1':(json['bands'][0]['crs_transform'][2])//30,
+                #         'b2':(json['bands'][1]['crs_transform'][2])//30,
+                #         'b3':json['bands'][2]['crs_transform'][2]//30,
+                #         'b4':json['bands'][3]['crs_transform'][2]//30,
+                #         'b5':json['bands'][4]['crs_transform'][2]//30,
+                #         'b6':json['bands'][5]['crs_transform'][2]//30,
+                #         'b7':json['bands'][6]['crs_transform'][2]//30,
+                #         'b10':json['bands'][7]['crs_transform'][2]//30,
+                #         'gumus':bashorat(
+                #             json['bands'][0]['crs_transform'][2]//30,
+                #             json['bands'][1]['crs_transform'][2]//30,
+                #             json['bands'][2]['crs_transform'][2]//30,
+                #             json['bands'][3]['crs_transform'][2]//30,
+                #             json['bands'][4]['crs_transform'][2]//30,
+                #             json['bands'][5]['crs_transform'][2]//30,
+                #             json['bands'][6]['crs_transform'][2]//30,
+                #             json['bands'][7]['crs_transform'][2]//30,
+                #         ),
+                'massiv': Prediction.objects.get(name=geoJSON['features'][count]['properties']['massiv'])}
+                                                        )
             count += 1
         serializer = self.serializer_class(self.queryset, many=True)
         return Response(data=serializer.data, status=200)
