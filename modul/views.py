@@ -102,92 +102,81 @@ class PredictionCounterViewSet(ViewSet):
     serializer_class = CounterSerializer
     pagination_class = 100
 
+    # def list(self, request):
+    #     b1 = B.objects.filter(date__year='2022', date__month='09', date__day='01').first()
+    #     file = b1.file
+    #     m1 = Model.objects.filter(order='0').first()
+    #     for i in file.read().decode('utf-8').splitlines()[1:2]:
+    #         c1 = Counter.objects.filter(counter_id=i.split(',')[8]).first()
+    #
+    #         Counter.objects.create(
+    #             counter_id=(i.split(',')[8]),
+    #             b1=(i.split(',')[0]),
+    #             b2=(i.split(',')[1]),
+    #             b3=(i.split(',')[2]),
+    #             b4=(i.split(',')[3]),
+    #             b5=(i.split(',')[4]),
+    #             b6=(i.split(',')[5]),
+    #             b7=(i.split(',')[6]),
+    #             b10=(i.split(',')[7]),
+    #             gumus=bashorat((i.split(',')[0]), i.split(',')[1], i.split(',')[2], i.split(',')[3], i.split(',')[4],
+    #                            i.split(',')[5], i.split(',')[6], i.split(',')[7], m1.file1, m1.file1norm),
+    #             fosfor=bashorat((i.split(',')[0]), i.split(',')[1], i.split(',')[2], i.split(',')[3], i.split(',')[4],
+    #                             i.split(',')[5], i.split(',')[6], i.split(',')[7], m1.file2, m1.file2norm),
+    #             kaliy=bashorat((i.split(',')[0]), i.split(',')[1], i.split(',')[2], i.split(',')[3], i.split(',')[4],
+    #                            i.split(',')[5], i.split(',')[6], i.split(',')[7], m1.file3, m1.file3norm),
+    #             shorlanish=bashorat((i.split(',')[0]), i.split(',')[1], i.split(',')[2], i.split(',')[3],
+    #                                 i.split(',')[4], i.split(',')[5], i.split(',')[6], i.split(',')[7], m1.file5,
+    #                                 m1.file5norm),
+    #             mex=bashorat((i.split(',')[0]), i.split(',')[1], i.split(',')[2], i.split(',')[3], i.split(',')[4],
+    #                          i.split(',')[5], i.split(',')[6], i.split(',')[7], m1.file4, m1.file4norm),
+    #             namlik=1,
+    #             date=b1.date,
+    #             massiv=c1.massiv,
+    #             model=m1,
+    #
+    #         )
+    #
+    #     return Response(data="hjk", status=200)
+
     def list(self, request):
-        b1 = B.objects.filter(date__year='2022', date__month='09', date__day='01').first()
-        file = b1.file
-        m1 = Model.objects.filter(order='0').first()
-        for i in file.read().decode('utf-8').splitlines()[1:2]:
-            c1 = Counter.objects.filter(counter_id=i.split(',')[8]).first()
-
-            Counter.objects.create(
-                counter_id=(i.split(',')[8]),
-                b1=(i.split(',')[0]),
-                b2=(i.split(',')[1]),
-                b3=(i.split(',')[2]),
-                b4=(i.split(',')[3]),
-                b5=(i.split(',')[4]),
-                b6=(i.split(',')[5]),
-                b7=(i.split(',')[6]),
-                b10=(i.split(',')[7]),
-                gumus=bashorat((i.split(',')[0]), i.split(',')[1], i.split(',')[2], i.split(',')[3], i.split(',')[4],
-                               i.split(',')[5], i.split(',')[6], i.split(',')[7], m1.file1, m1.file1norm),
-                fosfor=bashorat((i.split(',')[0]), i.split(',')[1], i.split(',')[2], i.split(',')[3], i.split(',')[4],
-                                i.split(',')[5], i.split(',')[6], i.split(',')[7], m1.file2, m1.file2norm),
-                kaliy=bashorat((i.split(',')[0]), i.split(',')[1], i.split(',')[2], i.split(',')[3], i.split(',')[4],
-                               i.split(',')[5], i.split(',')[6], i.split(',')[7], m1.file3, m1.file3norm),
-                shorlanish=bashorat((i.split(',')[0]), i.split(',')[1], i.split(',')[2], i.split(',')[3],
-                                    i.split(',')[4], i.split(',')[5], i.split(',')[6], i.split(',')[7], m1.file5,
-                                    m1.file5norm),
-                mex=bashorat((i.split(',')[0]), i.split(',')[1], i.split(',')[2], i.split(',')[3], i.split(',')[4],
-                             i.split(',')[5], i.split(',')[6], i.split(',')[7], m1.file4, m1.file4norm),
-                namlik=1,
-                date=b1.date,
-                massiv=c1.massiv,
-                model=m1,
-
-            )
-
-        return Response(data="hjk", status=200)
-
-
-# update counter
-# def list(self, request):
-#     import json
-#     geoJSON = json.load(open('Konturlar.json'))
-#     # ee.Initialize()
-#     count = 0
-#     for i in Counter.objects.all():
-#         #     # print(count)
-#         #
-#         #
-#         #     l8 = ee.ImageCollection("LANDSAT/LC08/C01/T1_SR")
-#         #     coors = geoJSON['features'][count]['geometry']['coordinates']
-#         #     aoi = ee.Geometry.Polygon(coors)
-#         #     ffa_db = ee.Image(ee.ImageCollection("LANDSAT/LC08/C01/T1_SR")
-#         #                       .filterBounds(aoi)
-#         #                       .filterDate('2021-01-01', '2021-03-02')
-#         #                       .first()
-#         #                       .clip(aoi))
-#         #     json = ffa_db.getInfo()
-#         #     # print(float(geoJSON['features'][count]['properties']['Kontur_raq']))
-#         #     # print(json['bands'][0]['crs_transform'][2])
-#         #     # print(json['bands'][1]['crs_transform'][2])
-#         #
-#         Counter.objects.filter(id=count + 1).update(**{
-#             'counter_id': geoJSON['features'][count]['properties']['Kontur_raq'],
-#             #         'b1':(json['bands'][0]['crs_transform'][2])//30,
-#             #         'b2':(json['bands'][1]['crs_transform'][2])//30,
-#             #         'b3':json['bands'][2]['crs_transform'][2]//30,
-#             #         'b4':json['bands'][3]['crs_transform'][2]//30,
-#             #         'b5':json['bands'][4]['crs_transform'][2]//30,
-#             #         'b6':json['bands'][5]['crs_transform'][2]//30,
-#             #         'b7':json['bands'][6]['crs_transform'][2]//30,
-#             #         'b10':json['bands'][7]['crs_transform'][2]//30,
-#             #         'gumus':bashorat(
-#             #             json['bands'][0]['crs_transform'][2]//30,
-#             #             json['bands'][1]['crs_transform'][2]//30,
-#             #             json['bands'][2]['crs_transform'][2]//30,
-#             #             json['bands'][3]['crs_transform'][2]//30,
-#             #             json['bands'][4]['crs_transform'][2]//30,
-#             #             json['bands'][5]['crs_transform'][2]//30,
-#             #             json['bands'][6]['crs_transform'][2]//30,
-#             #             json['bands'][7]['crs_transform'][2]//30,
-#             #         ),
-#             'massiv': Prediction.objects.get(name=geoJSON['features'][count]['properties']['massiv'])}
-#                                                     )
-#         count += 1
-#     serializer = self.serializer_class(self.queryset, many=True)
-#     return Response(data=serializer.data, status=200)
+        import json
+        geoJSON = json.load(open('Konturlar.json'))
+        # ee.Initialize()
+        count = 0
+        for i in geoJSON['features']:
+            #     # print(count)
+            #
+            #
+            #     l8 = ee.ImageCollection("LANDSAT/LC08/C01/T1_SR")
+            #     coors = geoJSON['features'][count]['geometry']['coordinates']
+            #     aoi = ee.Geometry.Polygon(coors)
+            #     ffa_db = ee.Image(ee.ImageCollection("LANDSAT/LC08/C01/T1_SR")
+            #                       .filterBounds(aoi)
+            #                       .filterDate('2021-01-01', '2021-03-02')
+            #                       .first()
+            #                       .clip(aoi))
+            #     json = ffa_db.getInfo()
+            #     # print(float(geoJSON['features'][count]['properties']['Kontur_raq']))
+            #     # print(json['bands'][0]['crs_transform'][2])
+            #     # print(json['bands'][1]['crs_transform'][2])
+            #
+            Counter.objects.create(counter_id=i['properties']['Kontur_raq'], b1=2, b2=3, b3=4, b4=5, b5=6, b6=7, b7=8,b10=9,
+                                   gumus=9, fosfor=10, kaliy=11, shorlanish=12, mex=13, namlik=14, date=timezone.now(),
+                                   massiv=Prediction.objects.get(name=i['properties']['massiv']),
+                                   model=Model.objects.get(order=0))
+            #                        b1=1,
+            #                        b2=2,
+            #                        b3=3,
+            #                        b4=4,
+            #                        b5=5,
+            #                        b6=6,
+            #                        b7=7,
+            #                        'massiv': Prediction.objects.get(name=i['properties']['massiv']),
+            # )
+            count += 1
+        serializer = self.serializer_class(self.queryset, many=True)
+        return Response(data=serializer.data, status=200)
 
 
 class WeatherViewSet():
