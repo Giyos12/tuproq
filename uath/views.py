@@ -115,16 +115,19 @@ class ModelAdminViewSet(ModelViewSet):
                 object.name = data.get('name')
 
                 # filelar bilan ishlash uchun kerak bo'lgan kodlar
-                object.file1 = os.path.join(data.get('name'), os.listdir(new_directory_path)[0])
-                object.file2 = os.path.join(data.get('name'), os.listdir(new_directory_path)[2])
-                object.file3 = os.path.join(data.get('name'), os.listdir(new_directory_path)[4])
-                object.file4 = os.path.join(data.get('name'), os.listdir(new_directory_path)[6])
-                object.file5 = os.path.join(data.get('name'), os.listdir(new_directory_path)[8])
-                object.file1norm = os.path.join(data.get('name'), os.listdir(new_directory_path)[1])
-                object.file2norm = os.path.join(data.get('name'), os.listdir(new_directory_path)[3])
-                object.file3norm = os.path.join(data.get('name'), os.listdir(new_directory_path)[5])
-                object.file4norm = os.path.join(data.get('name'), os.listdir(new_directory_path)[7])
-                object.file5norm = os.path.join(data.get('name'), os.listdir(new_directory_path)[9])
+                json = {}
+                for i in os.listdir(new_directory_path):
+                    json[i.split('.')[0]] = i
+                object.file1 = os.path.join(data.get('name'), json.get('modul1'))
+                object.file2 = os.path.join(data.get('name'), json.get('modul2'))
+                object.file3 = os.path.join(data.get('name'), json.get('modul3'))
+                object.file4 = os.path.join(data.get('name'), json.get('modul4'))
+                object.file5 = os.path.join(data.get('name'), json.get('modul5'))
+                object.file1norm = os.path.join(data.get('name'), json.get('modul1norm'))
+                object.file2norm = os.path.join(data.get('name'), json.get('modul2norm'))
+                object.file3norm = os.path.join(data.get('name'), json.get('modul3norm'))
+                object.file4norm = os.path.join(data.get('name'), json.get('modul4norm'))
+                object.file5norm = os.path.join(data.get('name'), json.get('modul5norm'))
                 object.save()
             if data.get('file1'):
                 os.remove(object.file1.path)
