@@ -262,6 +262,7 @@ class ModelOrderUpdateViewSet(ViewSet):
                 is_upt_order_0 = True
 
             try:
+                print(item['id'], item['order'])
                 model = Model.objects.get(pk=item['id'])
                 model.order = item['order']
                 m1 = model.save()
