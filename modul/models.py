@@ -97,6 +97,9 @@ class Counter(models.Model):
 class Modul(models.Model):
     name = models.CharField(max_length=255, unique=True)
     status = models.BooleanField(default=False)
+    is_information = models.BooleanField(default=False)
+    is_recommendation = models.BooleanField(default=False)
+    is_feature = models.BooleanField(default=False)
 
 
 class B(models.Model):
