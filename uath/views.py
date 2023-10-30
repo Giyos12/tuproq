@@ -272,7 +272,7 @@ class ModelOrderUpdateViewSet(ViewSet):
                     print(m1, item['order'])
                     s1 = m1
             except:
-                pass
+                print('error')
 
         # print(Model.objects.all())
         # s1 = Model.objects.filter(order=0).first()
