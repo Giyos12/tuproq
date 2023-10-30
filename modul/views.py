@@ -73,7 +73,7 @@ class CounterModelViewSet(ModelViewSet):
                     massiv=p1)
 
             except Prediction.DoesNotExist:
-                return Response(data={'message': 'massiv topilmadi'}, status=404)
+                return Response(data={'message': 'bu massivda kontrlar mavjud emas'}, status=404)
             serializer = self.serializer_class(query, many=True)
             return Response(serializer.data, status=200)
 
