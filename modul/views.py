@@ -273,6 +273,6 @@ class UtViewSet(ViewSet):
     def list(self, request):
         c1 = Counter.objects.all()
         for i in c1:
-            c1.namlik = namlik_predict(i.b4, i.b5)
-            c1.save()
+            i.namlik = namlik_predict(i.b4, i.b5)
+            i.save()
         return JsonResponse({'success': 'Success'}, status=200)
