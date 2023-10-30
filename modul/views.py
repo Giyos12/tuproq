@@ -1,21 +1,14 @@
-import json
-import random
-
 from django.db import transaction
-from django.db.models import Min, Max
 from django.utils import timezone
 from rest_framework.response import Response
 from rest_framework.viewsets import ViewSet, ModelViewSet
 from modul.models import Weather7Daily, Weather24Hourly, Prediction, Modul, Counter, B
 from uath.models import Model
-from modul.serializers import Weather3DailySerializer, Weather24HourlySerializer, PredictionSerializer, ModulSerializer, \
+from modul.serializers import Weather3DailySerializer, Weather24HourlySerializer, ModulSerializer, \
     CounterSerializer, BSerializer
 import requests
 from django.http import JsonResponse
-from modul.utils import dl_predict, ml_predict, namlik_predict
-from uath.permissions import IsAdmin, IsPowerUser
-from rest_framework import permissions
-import ee
+from modul.utils import namlik_predict
 from modul.service import bashorat
 
 
@@ -61,10 +54,6 @@ class CounterModelViewSet(ModelViewSet):
     queryset = Counter.objects.all()
     serializer_class = CounterSerializer
 
-    # def get_queryset(self):
-    #     # get last 2653 data
-    #     return Counter.objects.all().order_by('-id')[:2653]
-
     def list(self, request, *args, **kwargs):
         params = request.query_params
         if params.get('name'):
@@ -80,34 +69,12 @@ class CounterModelViewSet(ModelViewSet):
 
         if params.get('year'):
             if params.get('year'):
-                # now_month = int(timezone.now().month)
-                # if now_month - 1 > 0:
                 query = Counter.objects.filter(date__year=str(int(params.get('year')) - 1),
                                                date__month=12)
-                # else:
-                #     query = Counter.objects.filter(date__year=str(int(timezone.now().year) - 1),
-                #                                    date__month=str(now_month - 1 + 12))
+
                 serializer = self.serializer_class(query, many=True)
                 return Response(serializer.data, status=200)
-            # elif params.get('monitor') == '4':
-            #     now_month = int(timezone.now().month)
-            #     if now_month - 5 > 0:
-            #         query = Counter.objects.filter(date__year=timezone.now().year,
-            #                                        date__month=str(int(timezone.now().month) - 5))
-            #     else:
-            #         query = Counter.objects.filter(date__year=str(int(timezone.now().year) - 1),
-            #                                        date__month=str(now_month - 5 + 12))
-            #     serializer = self.serializer_class(query, many=True)
-            #     return Response(serializer.data, status=200)
-            # elif params.get('monitor') == '1':
-            #     now_month = int(timezone.now().month)
-            #     if now_month - 1 > 0:
-            #         query = Counter.objects.filter(date__year=timezone.now().year, date__month=str(now_month - 1))
-            #     else:
-            #         query = Counter.objects.filter(date__year=str(int(timezone.now().year) - 1),
-            #                                        date__month=str(now_month - 1 + 12))
-            #     serializer = self.serializer_class(query, many=True)
-            #     return Response(serializer.data, status=200)
+
         if params.get('quarter'):
             if params.get('quarter'):
                 query = Counter.objects.filter(date__year=timezone.now().year, date__month=params.get('quarter'))
@@ -119,11 +86,7 @@ class CounterModelViewSet(ModelViewSet):
                 query = Counter.objects.filter(date__year=timezone.now().year, date__month=params.get('month'))
                 serializer = self.serializer_class(query, many=True)
                 return Response(serializer.data, status=200)
-        #
-        # c1 = Counter.objects.filter(date__year=timezone.now().year, date__month=timezone.now().month)
-        # # c1 objects namlik field min and max
-        # min_value = c1.aggregate(Min('namlik'))['namlik__min']
-        # max_value = c1.aggregate(Max('namlik'))['namlik__max']
+
         serializer = self.serializer_class(
             Counter.objects.filter(date__year=timezone.now().year, date__month=timezone.now().month), many=True)
         return Response(serializer.data, status=200)
@@ -212,15 +175,6 @@ class WeatherViewSet():
             return JsonResponse({'error': 'weather error'}, status=400)
 
 
-def get_prediction(request):
-    active_model = Model.objects.filter(order=0).first()
-    if active_model.is_dl:
-        dl_predict(active_model.model, request.data)
-    else:
-        ml_predict(active_model.model, request.data)
-    return JsonResponse({'success': 'Success'}, status=200)
-
-
 class BModelViewSet(ModelViewSet):
     queryset = B.objects.all()
     serializer_class = BSerializer
@@ -247,18 +201,19 @@ class BModelViewSet(ModelViewSet):
                     b10=(i.split(',')[7]),
                     gumus=bashorat((i.split(',')[0]), i.split(',')[1], i.split(',')[2], i.split(',')[3],
                                    i.split(',')[4],
-                                   i.split(',')[5], i.split(',')[6], i.split(',')[7], m1.file1, m1.file1norm),
+                                   i.split(',')[5], i.split(',')[6], i.split(',')[7], m1.file1, m1.file1norm, m1.is_dl),
                     fosfor=bashorat((i.split(',')[0]), i.split(',')[1], i.split(',')[2], i.split(',')[3],
                                     i.split(',')[4],
-                                    i.split(',')[5], i.split(',')[6], i.split(',')[7], m1.file2, m1.file2norm),
+                                    i.split(',')[5], i.split(',')[6], i.split(',')[7], m1.file2, m1.file2norm,
+                                    m1.is_dl),
                     kaliy=bashorat((i.split(',')[0]), i.split(',')[1], i.split(',')[2], i.split(',')[3],
                                    i.split(',')[4],
-                                   i.split(',')[5], i.split(',')[6], i.split(',')[7], m1.file3, m1.file3norm),
+                                   i.split(',')[5], i.split(',')[6], i.split(',')[7], m1.file3, m1.file3norm, m1.is_dl),
                     shorlanish=bashorat((i.split(',')[0]), i.split(',')[1], i.split(',')[2], i.split(',')[3],
                                         i.split(',')[4], i.split(',')[5], i.split(',')[6], i.split(',')[7], m1.file5,
-                                        m1.file5norm),
+                                        m1.file5norm, m1.is_dl),
                     mex=bashorat((i.split(',')[0]), i.split(',')[1], i.split(',')[2], i.split(',')[3], i.split(',')[4],
-                                 i.split(',')[5], i.split(',')[6], i.split(',')[7], m1.file4, m1.file4norm),
+                                 i.split(',')[5], i.split(',')[6], i.split(',')[7], m1.file4, m1.file4norm, m1.is_dl),
                     namlik=namlik_predict(i.split(',')[4], i.split(',')[5]),
                     date=s1.date,
                     massiv=c1.massiv,
@@ -267,12 +222,3 @@ class BModelViewSet(ModelViewSet):
                 )
 
         return Response(data=serializer.data, status=200)
-
-
-class UtViewSet(ViewSet):
-    def list(self, request):
-        c1 = Counter.objects.all()
-        for i in c1:
-            i.namlik = namlik_predict(i.b4, i.b5)
-            i.save()
-        return JsonResponse({'success': 'Success'}, status=200)
