@@ -11,7 +11,7 @@ from modul.serializers import Weather3DailySerializer, Weather24HourlySerializer
     CounterSerializer, BSerializer
 import requests
 from django.http import JsonResponse
-from modul.utils import dl_predict, ml_predict
+from modul.utils import dl_predict, ml_predict, namlik_predict
 from uath.permissions import IsAdmin, IsPowerUser
 from rest_framework import permissions
 import ee
@@ -254,7 +254,7 @@ class BModelViewSet(ModelViewSet):
                                         m1.file5norm),
                     mex=bashorat((i.split(',')[0]), i.split(',')[1], i.split(',')[2], i.split(',')[3], i.split(',')[4],
                                  i.split(',')[5], i.split(',')[6], i.split(',')[7], m1.file4, m1.file4norm),
-                    namlik=1,
+                    namlik=namlik_predict(i.split(',')[4], i.split(',')[5]),
                     date=s1.date,
                     massiv=c1.massiv,
                     model=m1,
