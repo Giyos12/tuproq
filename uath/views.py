@@ -269,15 +269,11 @@ class ModelOrderUpdateViewSet(ViewSet):
                     s1 = model
             except:
                 pass
-        # print(Model.objects.all())
-        # s1 = Model.objects.filter(order=0).first()
-        # print(s1)
-        # print(s1.file1)
         if is_upt_order_0:
             c = Counter.objects.filter(date__year=timezone.now().year, date__month=timezone.now().month)
             if c.exists():
                 for i in c:
-                    try:
+                    # try:
                         i.gumus = bashorat(i.b1, i.b2, i.b3, i.b4, i.b5, i.b6, i.b7, i.b10, s1.file1, s1.file1norm)
                         i.fosfor = bashorat(i.b1, i.b2, i.b3, i.b4, i.b5, i.b6, i.b7, i.b10, s1.file2, s1.file2norm)
                         i.kaliy = bashorat(i.b1, i.b2, i.b3, i.b4, i.b5, i.b6, i.b7, i.b10, s1.file3, s1.file3norm)
@@ -285,6 +281,6 @@ class ModelOrderUpdateViewSet(ViewSet):
                         i.shorlanish = bashorat(i.b1, i.b2, i.b3, i.b4, i.b5, i.b6, i.b7, i.b10, s1.file5, s1.file5norm)
                         i.model = s1
                         i.save()
-                    except:
-                        raise ValidationError({'error': 'bashoratda xatolik bor'})
+                    # except:
+                    #     raise ValidationError({'error': 'bashoratda xatolik bor'})
         return Response({'detail': 'success'}, status=200)
