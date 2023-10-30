@@ -1,5 +1,6 @@
 import os
-
+import pickle
+from keras.models import load_model
 from django.contrib.auth import login, logout
 from django.contrib.auth.models import User, Group
 from django.db import transaction
@@ -277,17 +278,40 @@ class ModelOrderUpdateViewSet(ViewSet):
                 pass
         if is_upt_order_0:
             c = Counter.objects.filter(date__year=timezone.now().year, date__month=timezone.now().month)
+            if s1.is_dl:
+                preprocessing1 = pickle.load(open(s1.file1norm.path, 'rb'))
+                model1 = load_model(s1.file1.path)
+                preprocessing2 = pickle.load(open(s1.file2norm.path, 'rb'))
+                model2 = load_model(s1.file2.path)
+                preprocessing3 = pickle.load(open(s1.file3norm.path, 'rb'))
+                model3 = load_model(s1.file3.path)
+                preprocessing4 = pickle.load(open(s1.file4norm.path, 'rb'))
+                model4 = load_model(s1.file4.path)
+                preprocessing5 = pickle.load(open(s1.file5norm.path, 'rb'))
+                model5 = load_model(s1.file5.path)
+            else:
+                preprocessing1 = pickle.load(open(s1.file1norm.path, 'rb'))
+                model1 = pickle.load(open(s1.file1.path, 'rb'))
+                preprocessing2 = pickle.load(open(s1.file2norm.path, 'rb'))
+                model2 = pickle.load(open(s1.file2.path, 'rb'))
+                preprocessing3 = pickle.load(open(s1.file3norm.path, 'rb'))
+                model3 = pickle.load(open(s1.file3.path, 'rb'))
+                preprocessing4 = pickle.load(open(s1.file4norm.path, 'rb'))
+                model4 = pickle.load(open(s1.file4.path, 'rb'))
+                preprocessing5 = pickle.load(open(s1.file5norm.path, 'rb'))
+                model5 = pickle.load(open(s1.file5.path, 'rb'))
+
             if c.exists():
                 for i in c:
                     # try:
-                    i.gumus = bashorat(i.b1, i.b2, i.b3, i.b4, i.b5, i.b6, i.b7, i.b10, s1.file1, s1.file1norm,
+                    i.gumus = bashorat(i.b1, i.b2, i.b3, i.b4, i.b5, i.b6, i.b7, i.b10, preprocessing1, model1,
                                        s1.is_dl)
-                    i.fosfor = bashorat(i.b1, i.b2, i.b3, i.b4, i.b5, i.b6, i.b7, i.b10, s1.file2, s1.file2norm,
+                    i.fosfor = bashorat(i.b1, i.b2, i.b3, i.b4, i.b5, i.b6, i.b7, i.b10, preprocessing2, model2,
                                         s1.is_dl)
-                    i.kaliy = bashorat(i.b1, i.b2, i.b3, i.b4, i.b5, i.b6, i.b7, i.b10, s1.file3, s1.file3norm,
+                    i.kaliy = bashorat(i.b1, i.b2, i.b3, i.b4, i.b5, i.b6, i.b7, i.b10, preprocessing3, model3,
                                        s1.is_dl)
-                    i.mex = bashorat(i.b1, i.b2, i.b3, i.b4, i.b5, i.b6, i.b7, i.b10, s1.file4, s1.file4norm, s1.is_dl)
-                    i.shorlanish = bashorat(i.b1, i.b2, i.b3, i.b4, i.b5, i.b6, i.b7, i.b10, s1.file5, s1.file5norm,
+                    i.mex = bashorat(i.b1, i.b2, i.b3, i.b4, i.b5, i.b6, i.b7, i.b10,preprocessing4,model4, s1.is_dl)
+                    i.shorlanish = bashorat(i.b1, i.b2, i.b3, i.b4, i.b5, i.b6, i.b7, i.b10, preprocessing5, model5,
                                             s1.is_dl)
                     i.namlik = namlik_predict(i.b5, i.b6)
                     i.model = s1
