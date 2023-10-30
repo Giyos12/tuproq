@@ -3,6 +3,7 @@ from sklearn.svm import SVC
 from sklearn.ensemble import RandomForestClassifier
 import pickle
 # from tensorflow.keras.models import load_model
+import tensorflow
 from keras.models import load_model
 import numpy as np
 
@@ -20,5 +21,6 @@ def bashorat(B1, B2, B3, B4, B5, B6, B7, B10, file, filenorm, is_dl):
         print(model.summary())
         data = preprocessing.transform([[B1, B2, B3, B4, B5, B6, B7, B10]])
         print(data)
-        pred = np.argmax(np.around(model.predict(data)), axis=1) + 1
+        with tensorflow.device('/cpu:0'):
+            pred = np.argmax(np.around(model.predict(data)), axis=1) + 1
         return pred
