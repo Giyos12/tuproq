@@ -40,8 +40,8 @@ class ModulModelViewSet(ModelViewSet):
     queryset = Modul.objects.all()
     serializer_class = ModulSerializer
 
-    # def create(self, request, *args, **kwargs):
-    #     return Response(data={'message': 'method not allowed'}, status=405)
+    def create(self, request, *args, **kwargs):
+        return Response(data={'message': 'method not allowed'}, status=405)
 
     def update(self, request, *args, **kwargs):
         # IsAuthenticated and IsAdmin working
