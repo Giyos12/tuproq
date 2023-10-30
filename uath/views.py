@@ -263,7 +263,8 @@ class ModelOrderUpdateViewSet(ViewSet):
 
             try:
                 print(item['id'], item['order'])
-                model = Model.objects.get(pk=item['id'])
+                model = Model.objects.get(id=item['id'])
+                print(model)
                 model.order = item['order']
                 m1 = model.save()
                 print(m1.order)
