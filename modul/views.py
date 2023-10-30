@@ -119,14 +119,14 @@ class CounterModelViewSet(ModelViewSet):
                 query = Counter.objects.filter(date__year=timezone.now().year, date__month=params.get('month'))
                 serializer = self.serializer_class(query, many=True)
                 return Response(serializer.data, status=200)
-
-        c1 = Counter.objects.filter(date__year=timezone.now().year, date__month=timezone.now().month)
-        # c1 objects namlik field min and max
-        min_value = c1.aggregate(Min('namlik'))['namlik__min']
-        max_value = c1.aggregate(Max('namlik'))['namlik__max']
+        #
+        # c1 = Counter.objects.filter(date__year=timezone.now().year, date__month=timezone.now().month)
+        # # c1 objects namlik field min and max
+        # min_value = c1.aggregate(Min('namlik'))['namlik__min']
+        # max_value = c1.aggregate(Max('namlik'))['namlik__max']
         serializer = self.serializer_class(
             Counter.objects.filter(date__year=timezone.now().year, date__month=timezone.now().month), many=True)
-        return Response({"min": min_value, "max": max_value}, status=200)
+        return Response(serializer.data, status=200)
 
     def create(self, request, *args, **kwargs):
         return Response(data={'message': 'method not allowed'}, status=405)
