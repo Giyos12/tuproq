@@ -261,18 +261,18 @@ class ModelOrderUpdateViewSet(ViewSet):
             if s1.id == item['id'] and item['order'] != 0:
                 is_upt_order_0 = True
 
-            try:
-                print(item['id'], item['order'])
-                model = Model.objects.get(id=item['id'])
-                print(model)
-                model.order = item['order']
-                m1 = model.save()
-                print(m1.order)
-                if item['order'] == 0:
-                    print(m1, item['order'])
-                    s1 = m1
-            except:
-                print('error')
+            # try:
+            print(item['id'], item['order'])
+            model = Model.objects.get(id=item['id'])
+            print(model)
+            model.order = item['order']
+            m1 = model.save()
+            print(m1.order)
+            if item['order'] == 0:
+                print(m1, item['order'])
+                s1 = m1
+            # except:
+            #     print('error')
 
         # print(Model.objects.all())
         # s1 = Model.objects.filter(order=0).first()
