@@ -266,11 +266,11 @@ class ModelOrderUpdateViewSet(ViewSet):
             model = Model.objects.get(id=item['id'])
             print(model)
             model.order = item['order']
-            m1 = model.save()
-            print(m1.order)
+            model.save()
+            print(model.order)
             if item['order'] == 0:
-                print(m1, item['order'])
-                s1 = m1
+                print(model, item['order'])
+                s1 = model
             # except:
             #     print('error')
 
