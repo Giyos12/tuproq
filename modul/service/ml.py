@@ -18,9 +18,7 @@ def bashorat(B1, B2, B3, B4, B5, B6, B7, B10, file, filenorm, is_dl):
     else:
         preprocessing = pickle.load(open(filenorm.path, 'rb'))
         model = load_model(file.path)
-        print(model.summary())
         data = preprocessing.transform([[B1, B2, B3, B4, B5, B6, B7, B10]])
-        print(data)
         with tensorflow.device('/cpu:0'):
             pred = np.argmax(np.around(model.predict(data)), axis=1) + 1
         return pred
