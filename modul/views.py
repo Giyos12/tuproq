@@ -1,3 +1,5 @@
+import pickle
+from keras.models import load_model
 from django.db import transaction
 from django.utils import timezone
 from rest_framework.response import Response
@@ -186,6 +188,29 @@ class BModelViewSet(ModelViewSet):
             s1 = serializer.save()
             file = s1.file
             m1 = Model.objects.filter(order='0').first()
+            if m1.is_dl:
+                preprocessing1 = pickle.load(open(m1.file1norm.path, 'rb'))
+                model1 = load_model(m1.file1.path)
+                preprocessing2 = pickle.load(open(m1.filenorm2.path, 'rb'))
+                model2 = load_model(m1.file2.path)
+                preprocessing3 = pickle.load(open(m1.filenorm3.path, 'rb'))
+                model3 = load_model(m1.file3.path)
+                preprocessing4 = pickle.load(open(m1.filenorm4.path, 'rb'))
+                model4 = load_model(m1.file4.path)
+                preprocessing5 = pickle.load(open(m1.filenorm5.path, 'rb'))
+                model5 = load_model(m1.file5.path)
+            else:
+                preprocessing1 = pickle.load(open(m1.file1norm.path, 'rb'))
+                model1 = pickle.load(open(m1.file1.path, 'rb'))
+                preprocessing2 = pickle.load(open(m1.filenorm2.path, 'rb'))
+                model2 = pickle.load(open(m1.file2.path, 'rb'))
+                preprocessing3 = pickle.load(open(m1.filenorm3.path, 'rb'))
+                model3 = pickle.load(open(m1.file3.path, 'rb'))
+                preprocessing4 = pickle.load(open(m1.filenorm4.path, 'rb'))
+                model4 = pickle.load(open(m1.file4.path, 'rb'))
+                preprocessing5 = pickle.load(open(m1.filenorm5.path, 'rb'))
+                model5 = pickle.load(open(m1.file5.path, 'rb'))
+
             for i in file.read().decode('utf-8').splitlines()[1:]:
                 c1 = Counter.objects.filter(counter_id=i.split(',')[8]).first()
 
@@ -201,19 +226,20 @@ class BModelViewSet(ModelViewSet):
                     b10=(i.split(',')[7]),
                     gumus=bashorat((i.split(',')[0]), i.split(',')[1], i.split(',')[2], i.split(',')[3],
                                    i.split(',')[4],
-                                   i.split(',')[5], i.split(',')[6], i.split(',')[7], m1.file1, m1.file1norm, m1.is_dl),
+                                   i.split(',')[5], i.split(',')[6], i.split(',')[7], preprocessing1, model1, m1.is_dl),
                     fosfor=bashorat((i.split(',')[0]), i.split(',')[1], i.split(',')[2], i.split(',')[3],
                                     i.split(',')[4],
-                                    i.split(',')[5], i.split(',')[6], i.split(',')[7], m1.file2, m1.file2norm,
+                                    i.split(',')[5], i.split(',')[6], i.split(',')[7], preprocessing2, model2,
                                     m1.is_dl),
                     kaliy=bashorat((i.split(',')[0]), i.split(',')[1], i.split(',')[2], i.split(',')[3],
                                    i.split(',')[4],
-                                   i.split(',')[5], i.split(',')[6], i.split(',')[7], m1.file3, m1.file3norm, m1.is_dl),
+                                   i.split(',')[5], i.split(',')[6], i.split(',')[7], preprocessing3, model3, m1.is_dl),
                     shorlanish=bashorat((i.split(',')[0]), i.split(',')[1], i.split(',')[2], i.split(',')[3],
-                                        i.split(',')[4], i.split(',')[5], i.split(',')[6], i.split(',')[7], m1.file5,
-                                        m1.file5norm, m1.is_dl),
+                                        i.split(',')[4], i.split(',')[5], i.split(',')[6], i.split(',')[7],
+                                        preprocessing4, model4, m1.is_dl),
+
                     mex=bashorat((i.split(',')[0]), i.split(',')[1], i.split(',')[2], i.split(',')[3], i.split(',')[4],
-                                 i.split(',')[5], i.split(',')[6], i.split(',')[7], m1.file4, m1.file4norm, m1.is_dl),
+                                 i.split(',')[5], i.split(',')[6], i.split(',')[7], preprocessing5, model5, m1.is_dl),
                     namlik=namlik_predict(i.split(',')[4], i.split(',')[5]),
                     date=s1.date,
                     massiv=c1.massiv,
