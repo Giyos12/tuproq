@@ -268,6 +268,8 @@ class ModelOrderUpdateViewSet(ViewSet):
             except:
                 pass
         s1 = Model.objects.filter(order=0).first()
+        print(s1)
+        print(s1.file1)
         if is_upt_order_0:
             c = Counter.objects.filter(date__year=timezone.now().year, date__month=timezone.now().month)
             if c.exists():
