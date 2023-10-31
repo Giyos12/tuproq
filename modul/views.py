@@ -71,21 +71,57 @@ class CounterModelViewSet(ModelViewSet):
 
         if params.get('year'):
             if params.get('year'):
-                query = Counter.objects.filter(date__year=str(int(params.get('year')) - 1),
-                                               date__month=12)
+                query = Counter.objects.filter(date__year=str(int(params.get('year'))),
+                                               date__month=1)
 
                 serializer = self.serializer_class(query, many=True)
                 return Response(serializer.data, status=200)
 
         if params.get('quarter'):
             if params.get('quarter'):
-                query = Counter.objects.filter(date__year=timezone.now().year, date__month=params.get('quarter'))
-                serializer = self.serializer_class(query, many=True)
-                return Response(serializer.data, status=200)
+                current_month = int(timezone.now().month)
+                month = int(params.get('quarter'))
+                if month == 1:
+                    query = Counter.objects.filter(date__year=timezone.now().year, date__month=params.get('quarter'))
+                    serializer = self.serializer_class(query, many=True)
+                    return Response(serializer.data, status=200)
+                if month == 3:
+                    if month - current_month > 0:
+                        query = Counter.objects.filter(date__year=timezone.now().year,
+                                                       date__month=params.get('quarter'))
+                    else:
+                        query = Counter.objects.filter(date__year=str(int(timezone.now().year) - 1),
+                                                       date__month=params.get('quarter'))
+                    serializer = self.serializer_class(query, many=True)
+                    return Response(serializer.data, status=200)
+                if month == 6:
+                    if month - current_month > 0:
+                        query = Counter.objects.filter(date__year=timezone.now().year,
+                                                       date__month=params.get('quarter'))
+                    else:
+                        query = Counter.objects.filter(date__year=str(int(timezone.now().year) - 1),
+                                                       date__month=params.get('quarter'))
+                    serializer = self.serializer_class(query, many=True)
+                    return Response(serializer.data, status=200)
+                if month == 9:
+                    if month - current_month > 0:
+                        query = Counter.objects.filter(date__year=timezone.now().year,
+                                                       date__month=params.get('quarter'))
+
+                    else:
+                        query = Counter.objects.filter(date__year=str(int(timezone.now().year) - 1),
+                                                       date__month=params.get('quarter'))
+                    serializer = self.serializer_class(query, many=True)
+                    return Response(serializer.data, status=200)
 
         if params.get('month'):
             if params.get('month'):
-                query = Counter.objects.filter(date__year=timezone.now().year, date__month=params.get('month'))
+                current_month = int(timezone.now().month)
+                if int(params.get('month')) - current_month > 0:
+                    query = Counter.objects.filter(date__year=timezone.now().year, date__month=params.get('month'))
+                else:
+                    query = Counter.objects.filter(date__year=str(int(timezone.now().year) - 1),
+                                                   date__month=params.get('month'))
                 serializer = self.serializer_class(query, many=True)
                 return Response(serializer.data, status=200)
 
