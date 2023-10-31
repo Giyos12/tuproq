@@ -86,7 +86,7 @@ class CounterModelViewSet(ModelViewSet):
                     serializer = self.serializer_class(query, many=True)
                     return Response(serializer.data, status=200)
                 if month == 3:
-                    if month - current_month > 0:
+                    if current_month - month > 0:
                         query = Counter.objects.filter(date__year=timezone.now().year,
                                                        date__month=params.get('quarter'))
                     else:
@@ -95,7 +95,7 @@ class CounterModelViewSet(ModelViewSet):
                     serializer = self.serializer_class(query, many=True)
                     return Response(serializer.data, status=200)
                 if month == 6:
-                    if month - current_month > 0:
+                    if current_month - month > 0:
                         query = Counter.objects.filter(date__year=timezone.now().year,
                                                        date__month=params.get('quarter'))
                     else:
@@ -104,7 +104,7 @@ class CounterModelViewSet(ModelViewSet):
                     serializer = self.serializer_class(query, many=True)
                     return Response(serializer.data, status=200)
                 if month == 9:
-                    if month - current_month > 0:
+                    if current_month - month > 0:
                         query = Counter.objects.filter(date__year=timezone.now().year,
                                                        date__month=params.get('quarter'))
 
@@ -116,13 +116,10 @@ class CounterModelViewSet(ModelViewSet):
 
         if params.get('month'):
             if params.get('month'):
-                print(params.get('month'))
                 current_month = int(timezone.now().month)
-                if int(params.get('month')) - current_month > 0:
-                    print('bu yil')
+                if current_month - int(params.get('month')) > 0:
                     query = Counter.objects.filter(date__year=timezone.now().year, date__month=params.get('month'))
                 else:
-                    print('gechgan yil')
                     query = Counter.objects.filter(date__year=str(int(timezone.now().year) - 1),
                                                    date__month=params.get('month'))
                 serializer = self.serializer_class(query, many=True)
