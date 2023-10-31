@@ -116,10 +116,13 @@ class CounterModelViewSet(ModelViewSet):
 
         if params.get('month'):
             if params.get('month'):
+                print(params.get('month'))
                 current_month = int(timezone.now().month)
                 if int(params.get('month')) - current_month > 0:
+                    print('bu yil')
                     query = Counter.objects.filter(date__year=timezone.now().year, date__month=params.get('month'))
                 else:
+                    print('gechgan yil')
                     query = Counter.objects.filter(date__year=str(int(timezone.now().year) - 1),
                                                    date__month=params.get('month'))
                 serializer = self.serializer_class(query, many=True)
