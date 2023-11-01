@@ -3,7 +3,7 @@ import json
 
 
 def namlik_predict(b5, b6):
-    t = (b5 - b6) / (b5 + b6)
+    t = (float(b5) - float(b6)) / (float(b5) + float(b6))
     if -0.26 <= t < -0.16:
         return 1
     elif -0.16 <= t < - 0.06:
