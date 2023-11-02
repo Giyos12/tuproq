@@ -61,7 +61,8 @@ class CounterModelViewSet(ModelViewSet):
         if params.get('name'):
             try:
                 p1 = Prediction.objects.get(name=params.get('name'))
-                query = Counter.objects.filter(date__year=timezone.now().year, date__month=timezone.now().month).filter(
+                query = Counter.objects.filter(date__year=timezone.now().year,
+                                               date__month=int(timezone.now().month) - 1).filter(
                     massiv=p1)
 
             except Prediction.DoesNotExist:
@@ -126,7 +127,8 @@ class CounterModelViewSet(ModelViewSet):
                 return Response(serializer.data, status=200)
 
         serializer = self.serializer_class(
-            Counter.objects.filter(date__year=timezone.now().year, date__month=timezone.now().month), many=True)
+            Counter.objects.filter(date__year=timezone.now().year, date__month=int(timezone.now().month) - 1),
+            many=True)
         return Response(serializer.data, status=200)
 
     def create(self, request, *args, **kwargs):
