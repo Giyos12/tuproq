@@ -14,7 +14,7 @@ from django.http import JsonResponse
 from modul.utils import namlik_predict
 from modul.service import bashorat
 from tuproq.settings import BASE_DIR
-
+from uath.permissions import IsAdmin
 
 class Weather3DailyModelViewSet(ViewSet):
     serializer_class = Weather3DailySerializer
@@ -291,6 +291,7 @@ class BModelViewSet(ModelViewSet):
 
 
 class ExportCounterDBToExel(ViewSet):
+    permission_classes = [IsAdmin]
     def list(self, request):
         import pandas as pd
         try:
@@ -302,12 +303,10 @@ class ExportCounterDBToExel(ViewSet):
         count_counter = Counter.objects.filter(date__year__gt=2021).count()
         c1 = Counter.objects.filter(id=a.get('id')).first()
         if c1:
-            print('kirdi')
             if count1 == count_counter and c1.gumus == a.get('gumus') and c1.fosfor == a.get('fosfor') and c1.kaliy == a.get(
                     'kaliy') and c1.shorlanish == a.get('shorlanish') and c1.mex == a.get('mex') and c1.namlik == a.get(
                     'namlik'):
                 return Response(data={'url': 'media/export1.xlsx'}, status=200)
-        print('kirmadi')
         serializer = CounterSerializer(Counter.objects.filter(date__year__gt=2021), many=True)
         df = pd.DataFrame(serializer.data)
         df.to_excel('export.xlsx', index=False)
