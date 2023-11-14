@@ -16,7 +16,6 @@ class ModelSerializer(serializers.ModelSerializer):
     file4norm_size = serializers.SerializerMethodField()
     file5norm_size = serializers.SerializerMethodField()
 
-
     def get_file1_size(self, obj):
         return obj.file1.size
 
@@ -47,13 +46,9 @@ class ModelSerializer(serializers.ModelSerializer):
     def get_file5norm_size(self, obj):
         return obj.file5norm.size
 
-
-
     class Meta:
         model = Model
         fields = '__all__'
-
-
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -101,3 +96,5 @@ class LoginSerializer(serializers.Serializer):
             raise serializers.ValidationError('User is disabled.')
 
         return {'user': user}
+
+

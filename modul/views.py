@@ -1,3 +1,4 @@
+import os
 import pickle
 from keras.models import load_model
 from django.db import transaction
@@ -12,6 +13,7 @@ import requests
 from django.http import JsonResponse
 from modul.utils import namlik_predict
 from modul.service import bashorat
+from tuproq.settings import BASE_DIR
 
 
 class Weather3DailyModelViewSet(ViewSet):
@@ -286,3 +288,13 @@ class BModelViewSet(ModelViewSet):
                 )
 
         return Response(data=serializer.data, status=200)
+
+
+class ExportCounterDBToExel(ViewSet):
+    def list(self, request):
+        import pandas as pd
+        serializer = CounterSerializer(Counter.objects.filter(date__year__gt=2021), many=True)
+        df = pd.DataFrame(serializer.data)
+        df.to_excel('export.xlsx', index=False)
+        os.rename(os.path.join(BASE_DIR, 'export.xlsx'), os.path.join(BASE_DIR, 'media_root/export1.xlsx'))
+        return Response(data={'url':'media/export1.xlsx'}, status=200)

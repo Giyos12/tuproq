@@ -2,6 +2,8 @@ from django.contrib.auth.models import User
 from django.db import models
 import os
 
+from django.utils import timezone
+
 
 def custom_upload_path1(instance, filename):
     new_filename = f"modul1{os.path.splitext(filename)[1]}"
