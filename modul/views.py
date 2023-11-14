@@ -3,6 +3,7 @@ import pickle
 from keras.models import load_model
 from django.db import transaction
 from django.utils import timezone
+from rest_framework import permissions
 from rest_framework.response import Response
 from rest_framework.viewsets import ViewSet, ModelViewSet
 from modul.models import Weather7Daily, Weather24Hourly, Prediction, Modul, Counter, B
@@ -291,7 +292,7 @@ class BModelViewSet(ModelViewSet):
 
 
 class ExportCounterDBToExel(ViewSet):
-    permission_classes = [IsAdmin]
+    permission_classes = [permissions.IsAuthenticated,IsAdmin]
     def list(self, request):
         import pandas as pd
         try:
