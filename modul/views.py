@@ -301,10 +301,12 @@ class ExportCounterDBToExel(ViewSet):
         count_counter = Counter.objects.filter(date__year__gt=2021).count()
         c1 = Counter.objects.filter(id=a.get('id')).first()
         if c1:
+            print('kirdi')
             if count1 == count_counter and c1.gumus == a.get('gumus') and c1.fosfor == a.get('fosfor') and c1.kaliy == a.get(
                     'kaliy') and c1.shorlanish == a.get('shorlanish') and c1.mex == a.get('mex') and c1.namlik == a.get(
                     'namlik'):
                 return Response(data={'url': 'media/export1.xlsx'}, status=200)
+        print('kirmadi')
         serializer = CounterSerializer(Counter.objects.filter(date__year__gt=2021), many=True)
         df = pd.DataFrame(serializer.data)
         df.to_excel('export.xlsx', index=False)
