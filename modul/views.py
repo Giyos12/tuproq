@@ -293,7 +293,7 @@ class BModelViewSet(ModelViewSet):
 
 class ExportCounterDBToExel(ViewSet):
     def list(self, request):
-        print(request.user.groups.all()[0].name)
+        print(request.user.groups.all())
         if request.user.is_authenticated and request.user.groups.all()[0].name == 'admin_system':
             import pandas as pd
             try:
