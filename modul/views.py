@@ -294,8 +294,9 @@ class ExportCounterDBToExel(ViewSet):
     def list(self, request):
         import pandas as pd
         try:
-            a = pd.read_excel('media_root/export1.xlsx').to_dict('records')[0]
-            count1 = len(pd.read_excel('media_root/export1.xlsx').to_dict('records'))
+            a = pd.read_excel('media_root/export1.xlsx').to_dict('records')
+            count1 = len(a)
+            a = a[0]
         except:
             a = {}
         count_counter = Counter.objects.filter(date__year__gt=2021).count()
