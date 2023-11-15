@@ -292,10 +292,12 @@ class BModelViewSet(ModelViewSet):
         return Response(data=serializer.data, status=200)
 
 
-class ExportCounterDBToExel(ViewSet):
+class ExportCounterDBToExel(ModelViewSet):
+    queryset = Counter.objects.all()
+    serializer_class = CounterSerializer
     permission_classes = [permissions.IsAuthenticated]
 
-    def list(self, request):
+    def list(self, request, *args, **kwargs):
         import pandas as pd
         try:
             a = pd.read_excel('media_root/export1.xlsx').to_dict('records')
@@ -316,3 +318,20 @@ class ExportCounterDBToExel(ViewSet):
         df.to_excel('export.xlsx', index=False)
         os.rename(os.path.join(BASE_DIR, 'export.xlsx'), os.path.join(BASE_DIR, 'media_root/export1.xlsx'))
         return Response(data={'url': 'media/export1.xlsx'}, status=200)
+
+
+def create(self, request, *args, **kwargs):
+    return Response(data={'message': 'method not allowed'}, status=405)
+
+
+def partial_update(self, request, *args, **kwargs):
+    return Response(data={'message': 'method not allowed'}, status=405)
+
+
+def destroy(self, request, *args, **kwargs):
+    return Response(data={'message': 'method not allowed'}, status=405)
+
+
+def update(self, request, *args, **kwargs):
+    return Response(data={'message': 'method not allowed'}, status=405)
+
