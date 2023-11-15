@@ -293,7 +293,7 @@ class BModelViewSet(ModelViewSet):
 
 
 class ExportCounterDBToExel(ViewSet):
-    permission_classes = [permissions.IsAuthenticated, IsAdmin]
+    permission_classes = [permissions.IsAuthenticated]
 
     def list(self, request):
         import pandas as pd
