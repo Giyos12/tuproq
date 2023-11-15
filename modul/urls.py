@@ -10,6 +10,6 @@ router.register(r'module', views.ModulModelViewSet, basename='module')
 router.register(r'counter', views.PredictionCounterViewSet, basename='counter')
 router.register(r'counter-db', views.CounterModelViewSet, basename='counter-db')
 router.register(r'b', views.BModelViewSet, basename='b')
-router.register(r'export', views.ExportCounterDBToExel, basename='export')
+# router.register(r'export', views.ExportCounterDBToExel, basename='export')
 
 urlpatterns = router.urls
