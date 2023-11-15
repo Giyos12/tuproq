@@ -17,6 +17,7 @@ from modul.service import bashorat
 from tuproq.settings import BASE_DIR
 from uath.permissions import IsAdmin
 
+
 class Weather3DailyModelViewSet(ViewSet):
     serializer_class = Weather3DailySerializer
     queryset = Weather7Daily.objects.filter(created_at__date=timezone.now().date())
@@ -292,26 +293,26 @@ class BModelViewSet(ModelViewSet):
 
 
 class ExportCounterDBToExel(ViewSet):
+    permission_classes = [permissions.IsAuthenticated, IsAdmin]
+
     def list(self, request):
-        print(request.user.groups.all())
-        if request.user.is_authenticated and request.user.groups.all()[0].name == 'admin_system':
-            import pandas as pd
-            try:
-                a = pd.read_excel('media_root/export1.xlsx').to_dict('records')
-                count1 = len(a)
-                a = a[0]
-            except:
-                a = {}
-            count_counter = Counter.objects.filter(date__year__gt=2021).count()
-            c1 = Counter.objects.filter(id=a.get('id')).first()
-            if c1:
-                if count1 == count_counter and c1.gumus == a.get('gumus') and c1.fosfor == a.get('fosfor') and c1.kaliy == a.get(
-                        'kaliy') and c1.shorlanish == a.get('shorlanish') and c1.mex == a.get('mex') and c1.namlik == a.get(
-                        'namlik'):
-                    return Response(data={'url': 'media/export1.xlsx'}, status=200)
-            serializer = CounterSerializer(Counter.objects.filter(date__year__gt=2021), many=True)
-            df = pd.DataFrame(serializer.data)
-            df.to_excel('export.xlsx', index=False)
-            os.rename(os.path.join(BASE_DIR, 'export.xlsx'), os.path.join(BASE_DIR, 'media_root/export1.xlsx'))
-            return Response(data={'url': 'media/export1.xlsx'}, status=200)
-        return Response(data={'message': 'user not authenticated'}, status=401)
+        import pandas as pd
+        try:
+            a = pd.read_excel('media_root/export1.xlsx').to_dict('records')
+            count1 = len(a)
+            a = a[0]
+        except:
+            a = {}
+        count_counter = Counter.objects.filter(date__year__gt=2021).count()
+        c1 = Counter.objects.filter(id=a.get('id')).first()
+        if c1:
+            if count1 == count_counter and c1.gumus == a.get('gumus') and c1.fosfor == a.get(
+                    'fosfor') and c1.kaliy == a.get(
+                    'kaliy') and c1.shorlanish == a.get('shorlanish') and c1.mex == a.get('mex') and c1.namlik == a.get(
+                'namlik'):
+                return Response(data={'url': 'media/export1.xlsx'}, status=200)
+        serializer = CounterSerializer(Counter.objects.filter(date__year__gt=2021), many=True)
+        df = pd.DataFrame(serializer.data)
+        df.to_excel('export.xlsx', index=False)
+        os.rename(os.path.join(BASE_DIR, 'export.xlsx'), os.path.join(BASE_DIR, 'media_root/export1.xlsx'))
+        return Response(data={'url': 'media/export1.xlsx'}, status=200)
