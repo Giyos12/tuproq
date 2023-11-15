@@ -1,3 +1,5 @@
+from django.urls import path
+
 from tuproq.routers import CustomRouter
 from modul import views
 
@@ -10,4 +12,6 @@ router.register(r'counter-db', views.CounterModelViewSet, basename='counter-db')
 router.register(r'b', views.BModelViewSet, basename='b')
 router.register('export', views.ExportCounterDBToExel, basename='export')
 
-urlpatterns = router.urls
+urlpatterns = [
+                  path('exports/', views.ExportAPIView.as_view(), name='exports'),
+              ] + router.urls
