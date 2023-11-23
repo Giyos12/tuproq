@@ -109,7 +109,6 @@ class ModelAdminViewSet(ModelViewSet):
             data = serializers.validated_data
             object = self.get_object()
             if data.get('name'):
-                print(1)
                 # filelar bilan ishlash uchun kerak bo'lgan kodlar
                 directory_path = os.path.dirname(object.file1.path)
                 os.chdir(directory_path)
@@ -206,7 +205,7 @@ class ModelAdminViewSet(ModelViewSet):
                     preprocessing5 = pickle.load(open(s1.file5norm.path, 'rb'))
                     model5 = pickle.load(open(s1.file5.path, 'rb'))
                 try:
-                    c = Counter.objects.filter(date__year=timezone.now().year, date__month=timezone.now().month)
+                    c = Counter.objects.filter(date__year=timezone.now().year, date__month=int(timezone.now().month)-1)
                 except:
                     c = None
 
