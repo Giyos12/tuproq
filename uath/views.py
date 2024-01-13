@@ -304,7 +304,12 @@ class ModelOrderUpdateViewSet(ViewSet):
             except:
                 pass
         if is_upt_order_0:
-            c = Counter.objects.filter(date__year=timezone.now().year, date__month=int(timezone.now().month) - 1)
+            if timezone.now().month > 1:
+                c = Counter.objects.filter(date__year=timezone.now().year,
+                                           date__month=int(timezone.now().month) - 1)
+            else:
+                c = Counter.objects.filter(date__year=int(timezone.now().year) - 1, date__month=12)
+
             if s1.is_dl:
                 preprocessing1 = pickle.load(open(s1.file1norm.path, 'rb'))
                 model1 = load_model(s1.file1.path)
