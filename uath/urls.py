@@ -1,5 +1,6 @@
 from tuproq.routers import CustomRouter
 from uath import views
+from django.urls import path
 
 router = CustomRouter(root_view_name='account-wallet-root')
 router.register(r'auth', views.AuthModelViewSet, basename='auth')

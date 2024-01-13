@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Weather24Hourly, Weather7Daily, Prediction, Modul, Counter, B
+from .models import Weather24Hourly, Weather7Daily, Prediction, Modul, Counter, B, CounterSeasons, CounterYears
 
 
 class CounterSerializer(serializers.ModelSerializer):
@@ -35,4 +35,16 @@ class ModulSerializer(serializers.ModelSerializer):
 class BSerializer(serializers.ModelSerializer):
     class Meta:
         model = B
+        fields = '__all__'
+
+
+class CounterSeasonsSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = CounterSeasons
+        fields = '__all__'
+
+
+class CounterYearsSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = CounterYears
         fields = '__all__'

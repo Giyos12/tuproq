@@ -20,5 +20,5 @@ def bashorat(B1, B2, B3, B4, B5, B6, B7, B10, preprocessing, model, is_dl):
         # model = load_model(file.path)
         data = preprocessing.transform([[B1, B2, B3, B4, B5, B6, B7, B10]])
         with tensorflow.device('/cpu:0'):
-            pred = np.argmax(np.around(model.predict(data, verbose=0)), axis=1) + 1
+            pred = np.argmax(np.around(model.predict(data), 2), axis=1) + 1
         return pred

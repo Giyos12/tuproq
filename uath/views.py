@@ -9,6 +9,7 @@ from rest_framework import views, permissions, response
 from rest_framework.decorators import action
 from rest_framework.exceptions import ValidationError
 from rest_framework.response import Response
+from rest_framework.views import APIView
 
 from modul.models import Counter
 from modul.serializers import CounterSerializer
@@ -205,7 +206,8 @@ class ModelAdminViewSet(ModelViewSet):
                     preprocessing5 = pickle.load(open(s1.file5norm.path, 'rb'))
                     model5 = pickle.load(open(s1.file5.path, 'rb'))
                 try:
-                    c = Counter.objects.filter(date__year=timezone.now().year, date__month=int(timezone.now().month)-1)
+                    c = Counter.objects.filter(date__year=timezone.now().year,
+                                               date__month=int(timezone.now().month) - 1)
                 except:
                     c = None
 
@@ -213,13 +215,13 @@ class ModelAdminViewSet(ModelViewSet):
 
                     for i in c:
                         try:
-                            i.gumus = bashorat(i.b1, i.b2, i.b3, i.b4, i.b5, i.b6, i.b7, i.b10, preprocessing1,model1,
+                            i.gumus = bashorat(i.b1, i.b2, i.b3, i.b4, i.b5, i.b6, i.b7, i.b10, preprocessing1, model1,
                                                s1.is_dl)
-                            i.fosfor = bashorat(i.b1, i.b2, i.b3, i.b4, i.b5, i.b6, i.b7, i.b10, preprocessing2,model2,
+                            i.fosfor = bashorat(i.b1, i.b2, i.b3, i.b4, i.b5, i.b6, i.b7, i.b10, preprocessing2, model2,
                                                 s1.is_dl)
-                            i.kaliy = bashorat(i.b1, i.b2, i.b3, i.b4, i.b5, i.b6, i.b7, i.b10, preprocessing3,model3,
+                            i.kaliy = bashorat(i.b1, i.b2, i.b3, i.b4, i.b5, i.b6, i.b7, i.b10, preprocessing3, model3,
                                                s1.is_dl)
-                            i.mex = bashorat(i.b1, i.b2, i.b3, i.b4, i.b5, i.b6, i.b7, i.b10, preprocessing4,model4,
+                            i.mex = bashorat(i.b1, i.b2, i.b3, i.b4, i.b5, i.b6, i.b7, i.b10, preprocessing4, model4,
                                              s1.is_dl)
                             i.shorlanish = bashorat(i.b1, i.b2, i.b3, i.b4, i.b5, i.b6, i.b7, i.b10,
                                                     preprocessing5, model5, s1.is_dl)
@@ -302,7 +304,7 @@ class ModelOrderUpdateViewSet(ViewSet):
             except:
                 pass
         if is_upt_order_0:
-            c = Counter.objects.filter(date__year=timezone.now().year, date__month=timezone.now().month)
+            c = Counter.objects.filter(date__year=timezone.now().year, date__month=int(timezone.now().month) - 1)
             if s1.is_dl:
                 preprocessing1 = pickle.load(open(s1.file1norm.path, 'rb'))
                 model1 = load_model(s1.file1.path)
@@ -335,7 +337,7 @@ class ModelOrderUpdateViewSet(ViewSet):
                                         s1.is_dl)
                     i.kaliy = bashorat(i.b1, i.b2, i.b3, i.b4, i.b5, i.b6, i.b7, i.b10, preprocessing3, model3,
                                        s1.is_dl)
-                    i.mex = bashorat(i.b1, i.b2, i.b3, i.b4, i.b5, i.b6, i.b7, i.b10,preprocessing4,model4, s1.is_dl)
+                    i.mex = bashorat(i.b1, i.b2, i.b3, i.b4, i.b5, i.b6, i.b7, i.b10, preprocessing4, model4, s1.is_dl)
                     i.shorlanish = bashorat(i.b1, i.b2, i.b3, i.b4, i.b5, i.b6, i.b7, i.b10, preprocessing5, model5,
                                             s1.is_dl)
                     i.namlik = namlik_predict(i.b5, i.b6)
@@ -347,7 +349,7 @@ class ModelOrderUpdateViewSet(ViewSet):
 
 
 class ExportCounterDBToExel(ViewSet):
-    permission_classes = [permissions.IsAuthenticated,IsAdmin]
+    permission_classes = [permissions.IsAuthenticated, IsAdmin]
 
     def list(self, request):
         import pandas as pd
@@ -372,5 +374,7 @@ class ExportCounterDBToExel(ViewSet):
         return Response(data={'url': 'media/export1.xlsx'}, status=200)
 
 
-
-
+class ExampleView(APIView):
+    def get(self, request):
+        print(request.user)
+        return Response(data={'detail': 'success'}, status=200)

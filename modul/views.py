@@ -7,7 +7,7 @@ from rest_framework import permissions
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.viewsets import ViewSet, ModelViewSet
-from modul.models import Weather7Daily, Weather24Hourly, Prediction, Modul, Counter, B
+from modul.models import Weather7Daily, Weather24Hourly, Prediction, Modul, Counter, B, CounterSeasons
 from uath.models import Model
 from modul.serializers import Weather3DailySerializer, Weather24HourlySerializer, ModulSerializer, \
     CounterSerializer, BSerializer
@@ -130,10 +130,14 @@ class CounterModelViewSet(ModelViewSet):
                                                    date__month=params.get('month'))
                 serializer = self.serializer_class(query, many=True)
                 return Response(serializer.data, status=200)
-
-        serializer = self.serializer_class(
-            Counter.objects.filter(date__year=timezone.now().year, date__month=int(timezone.now().month) - 1),
-            many=True)
+        if timezone.now().month > 1:
+            serializer = self.serializer_class(
+                Counter.objects.filter(date__year=timezone.now().year, date__month=int(timezone.now().month) - 1),
+                many=True)
+        else:
+            serializer = self.serializer_class(
+                Counter.objects.filter(date__year=int(timezone.now().year) - 1, date__month=12),
+                many=True)
         return Response(serializer.data, status=200)
 
     def create(self, request, *args, **kwargs):
@@ -162,6 +166,7 @@ class PredictionCounterViewSet(ViewSet):
         import json
         geoJSON = json.load(open('Konturlar.json'))
         # ee.Initialize()
+        print(len(geoJSON['features']))
         for i in geoJSON['features']:
             Counter.objects.create(counter_id=i['properties']['Kontur_raq'], b1=2, b2=3, b3=4, b4=5, b5=6, b6=7, b7=8,
                                    b10=9,
@@ -218,6 +223,19 @@ class WeatherViewSet():
             return JsonResponse({'success': 'Success'}, status=200)
         else:
             return JsonResponse({'error': 'weather error'}, status=400)
+
+
+class CounterSeasonsViewSet(ModelViewSet):
+    queryset = CounterSeasons.objects.all()
+    serializer_class = CounterSerializer
+
+    def list(self, request, *args, **kwargs):
+        params = request.query_params
+        if params.get('q'):
+            n = int(params.get('q'))
+            current_month = int(timezone.now().month)
+            if n == 12 and current_month - n >= 0:
+                counter = Counter.objects.filter(date__year=timezone.now().year, date__month__in=[11, 10, 9])
 
 
 class BModelViewSet(ModelViewSet):
@@ -293,3 +311,7 @@ class BModelViewSet(ModelViewSet):
         return Response(data=serializer.data, status=200)
 
 
+class ExampleView(APIView):
+    def get(self, request):
+        print(request.user)
+        return Response(data={'message': 'success'}, status=200)
