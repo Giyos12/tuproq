@@ -66,13 +66,18 @@ class CounterModelViewSet(ModelViewSet):
         if params.get('name'):
             try:
                 p1 = Prediction.objects.get(name=params.get('name'))
-                query = Counter.objects.filter(date__year=timezone.now().year,
-                                               date__month=int(timezone.now().month) - 1).filter(
-                    massiv=p1)
+                if timezone.now().month > 1:
+                    serializer = self.serializer_class(
+                        Counter.objects.filter(date__year=timezone.now().year,
+                                               date__month=int(timezone.now().month) - 1).filter(massiv=p1),
+                        many=True)
+                else:
+                    serializer = self.serializer_class(
+                        Counter.objects.filter(date__year=int(timezone.now().year) - 1, date__month=12).filter(massiv=p1),
+                        many=True)
 
             except Prediction.DoesNotExist:
                 return Response(data={'message': 'bu massivda kontrlar mavjud emas'}, status=404)
-            serializer = self.serializer_class(query, many=True)
             return Response(serializer.data, status=200)
 
         if params.get('year'):
