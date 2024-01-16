@@ -9,7 +9,7 @@ import json
 import ee
 import csv
 
-ee.Initialize()
+# ee.Initialize()
 
 data = json.load(open('Konturlar.json'))
 data = data['features']
