@@ -9,7 +9,7 @@ import json
 import ee
 import csv
 
-ee.Initialize(project='tuproq')
+ee.Initialize()
 
 data = json.load(open('Konturlar.json'))
 data = data['features']

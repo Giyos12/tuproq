@@ -24,7 +24,7 @@ def start2():
 def counter_year():
     scheduler = BackgroundScheduler()
     counter_year = CounterTasks()
-    scheduler.add_job(counter_year.avg_year_counter, 'cron', month='1', day='16', hour='18', minute=37,
+    scheduler.add_job(counter_year.avg_year_counter, 'cron', month='1', day='16', hour='19', minute=6,
                       timezone='Asia/Tashkent',
                       id='counteryear_001', replace_existing=True)
 
