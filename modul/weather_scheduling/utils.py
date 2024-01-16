@@ -118,13 +118,14 @@ class CounterTasks:
         }
         time = timezone.now()
         year = time.year
-        month = time.month
+        month = time.month+2
         counters = Counter.objects.filter(date__year=year, date__month=1)
         if month == 3:
             queryset = Counter.objects.filter(
                 Q(date__year=year - 1, date__month=12) |
                 Q(date__year=year, date__month__in=[1, 2])
             )
+            print(len(queryset))
         elif month == 6:
             queryset = Counter.objects.filter(
                 Q(date__year=year, date__month__in=[3, 4, 5])
