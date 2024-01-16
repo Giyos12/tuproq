@@ -1,6 +1,6 @@
 from apscheduler.schedulers.background import BackgroundScheduler
 from modul.views import WeatherViewSet
-from .utils import Counter
+from .utils import CounterTasks
 
 
 def start():
@@ -23,16 +23,28 @@ def start2():
 
 def counter_year():
     scheduler = BackgroundScheduler()
-    counter_year = Counter()
-    scheduler.add_job(counter_year.avg_year_counter, 'interval', timezone='UTC',
+    counter_year = CounterTasks()
+    scheduler.add_job(counter_year.avg_year_counter, 'cron', month='1', day='16', hour='18', minute=37,
+                      timezone='Asia/Tashkent',
                       id='counteryear_001', replace_existing=True)
 
     scheduler.start()
 
+
 def counter_season():
     scheduler = BackgroundScheduler()
-    counter_season = Counter()
-    scheduler.add_job(counter_season.avg_season_counter, 'interval', timezone='UTC',
+    counter_season = CounterTasks()
+    scheduler.add_job(counter_season.avg_season_counter, 'cron', month='3,6,9,12', day='2', hour='1',
+                      timezone='Asia/Tashkent',
                       id='counterseason_001', replace_existing=True)
+
+    scheduler.start()
+
+
+def counter_month():
+    scheduler = BackgroundScheduler()
+    counter_month = CounterTasks()
+    scheduler.add_job(counter_month.avg_monthly_counter, 'cron', day='1', hour='4', timezone='UTC',
+                      id='countermonth_001', replace_existing=True)
 
     scheduler.start()

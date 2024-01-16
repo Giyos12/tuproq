@@ -96,10 +96,10 @@ class Counter(models.Model):
 
 class CounterSeasons(models.Model):
     CHOICES = (
-        ('WINTER', 'winter'),
-        ('SPRING', 'spring'),
-        ('SUMMER', 'summer'),
-        ('AUTUMN', 'autumn'),
+        ('winter', 'winter'),
+        ('spring', 'spring'),
+        ('summer', 'summer'),
+        ('autumn', 'autumn'),
     )
     season = models.CharField(max_length=128, choices=CHOICES)
     counter_id = models.CharField(max_length=255)

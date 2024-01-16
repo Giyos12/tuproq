@@ -206,8 +206,11 @@ class ModelAdminViewSet(ModelViewSet):
                     preprocessing5 = pickle.load(open(s1.file5norm.path, 'rb'))
                     model5 = pickle.load(open(s1.file5.path, 'rb'))
                 try:
-                    c = Counter.objects.filter(date__year=timezone.now().year,
-                                               date__month=int(timezone.now().month) - 1)
+                    if timezone.now().month > 1:
+                        c = Counter.objects.filter(date__year=timezone.now().year,
+                                                   date__month=int(timezone.now().month) - 1)
+                    else:
+                        c = Counter.objects.filter(date__year=int(timezone.now().year) - 1, date__month=12)
                 except:
                     c = None
 
