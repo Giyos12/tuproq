@@ -49,6 +49,8 @@
 #
 import ee
 
+ee.Authenticate()
+
 ee.Initialize(project='tuproq')
 
 if __name__ == '__main__':
