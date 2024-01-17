@@ -165,6 +165,7 @@ class CounterTasks:
 
                 CounterSeasons.objects.create(
                     counter_id=i.counter_id,
+                    season=season_dict[month],
                     b1=round(aggregate_qs['b1']),
                     b2=round(aggregate_qs['b2']),
                     b3=round(aggregate_qs['b3']),
