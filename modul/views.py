@@ -10,7 +10,7 @@ from rest_framework.viewsets import ViewSet, ModelViewSet
 from modul.models import Weather7Daily, Weather24Hourly, Prediction, Modul, Counter, B, CounterSeasons, CounterYears
 from uath.models import Model
 from modul.serializers import Weather3DailySerializer, Weather24HourlySerializer, ModulSerializer, \
-    CounterSerializer, BSerializer
+    CounterSerializer, BSerializer, CounterSeasonsSerializer
 import requests
 from django.http import JsonResponse
 from modul.utils import namlik_predict
@@ -73,7 +73,8 @@ class CounterModelViewSet(ModelViewSet):
                         many=True)
                 else:
                     serializer = self.serializer_class(
-                        Counter.objects.filter(date__year=int(timezone.now().year) - 1, date__month=12).filter(massiv=p1),
+                        Counter.objects.filter(date__year=int(timezone.now().year) - 1, date__month=12).filter(
+                            massiv=p1),
                         many=True)
 
             except Prediction.DoesNotExist:
@@ -82,7 +83,7 @@ class CounterModelViewSet(ModelViewSet):
 
         if params.get('year'):
             if params.get('year'):
-                query = CounterYears.objects.filter(date__year=str(int(params.get('year'))+1))
+                query = CounterYears.objects.filter(date__year=str(int(params.get('year')) + 1))
 
                 serializer = self.serializer_class(query, many=True)
                 return Response(serializer.data, status=200)
@@ -91,37 +92,44 @@ class CounterModelViewSet(ModelViewSet):
             if params.get('quarter'):
                 current_month = int(timezone.now().month)
                 month = int(params.get('quarter'))
-                if month == 1:
-                    query = Counter.objects.filter(date__year=timezone.now().year, date__month=params.get('quarter'))
-                    serializer = self.serializer_class(query, many=True)
-                    return Response(serializer.data, status=200)
                 if month == 3:
                     if current_month - month > 0:
-                        query = Counter.objects.filter(date__year=timezone.now().year,
-                                                       date__month=params.get('quarter'))
+                        query = CounterSeasons.objects.filter(date__year=timezone.now().year,
+                                                              date__month=params.get('quarter'))
+                        serializer = CounterSeasonsSerializer(query, many=True)
+                        return Response(serializer.data, status=200)
                     else:
-                        query = Counter.objects.filter(date__year=str(int(timezone.now().year) - 1),
-                                                       date__month=params.get('quarter'))
-                    serializer = self.serializer_class(query, many=True)
-                    return Response(serializer.data, status=200)
+                        query = CounterSeasons.objects.filter(date__year=str(int(timezone.now().year) - 1),
+                                                              date__month=params.get('quarter'))
+                        serializer = CounterSeasonsSerializer(query, many=True)
+                        return Response(serializer.data, status=200)
                 if month == 6:
                     if current_month - month > 0:
-                        query = Counter.objects.filter(date__year=timezone.now().year,
-                                                       date__month=params.get('quarter'))
+                        query = CounterSeasons.objects.filter(date__year=timezone.now().year,
+                                                              date__month=params.get('quarter'))
                     else:
-                        query = Counter.objects.filter(date__year=str(int(timezone.now().year) - 1),
-                                                       date__month=params.get('quarter'))
-                    serializer = self.serializer_class(query, many=True)
+                        query = CounterSeasons.objects.filter(date__year=str(int(timezone.now().year) - 1),
+                                                              date__month=params.get('quarter'))
+                    serializer = CounterSeasonsSerializer(query, many=True)
                     return Response(serializer.data, status=200)
                 if month == 9:
                     if current_month - month > 0:
-                        query = Counter.objects.filter(date__year=timezone.now().year,
-                                                       date__month=params.get('quarter'))
+                        query = CounterSeasons.objects.filter(date__year=timezone.now().year,
+                                                              date__month=params.get('quarter'))
+                    else:
+                        query = CounterSeasons.objects.filter(date__year=str(int(timezone.now().year) - 1),
+                                                              date__month=params.get('quarter'))
+                    serializer = CounterSeasonsSerializer(query, many=True)
+                    return Response(serializer.data, status=200)
+                if month == 12:
+                    if current_month - month > 0:
+                        query = CounterSeasons.objects.filter(date__year=timezone.now().year,
+                                                              date__month=params.get('quarter'))
 
                     else:
-                        query = Counter.objects.filter(date__year=str(int(timezone.now().year) - 1),
-                                                       date__month=params.get('quarter'))
-                    serializer = self.serializer_class(query, many=True)
+                        query = CounterSeasons.objects.filter(date__year=str(int(timezone.now().year) - 1),
+                                                              date__month=params.get('quarter'))
+                    serializer = CounterSeasonsSerializer(query, many=True)
                     return Response(serializer.data, status=200)
 
         if params.get('month'):
