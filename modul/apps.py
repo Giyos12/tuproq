@@ -18,3 +18,5 @@ class ModulConfig(AppConfig):
             weather_updater.counter_year()
             weather_updater.counter_season()
             weather_updater.counter_month()
+
+            ModulConfig.ready = lambda self: None
