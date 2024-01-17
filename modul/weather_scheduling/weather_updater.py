@@ -15,7 +15,7 @@ def start():
 def start2():
     scheduler = BackgroundScheduler()
     weather = WeatherViewSet()
-    scheduler.add_job(weather.get_hourly_weather, 'cron', month=1, hour=0, minute=0, second=0, timezone='UTC',
+    scheduler.add_job(weather.get_hourly_weather, 'cron', hour=0, minute=0, second=0, timezone='UTC',
                       id='weatherhourly_001', replace_existing=True)
 
     scheduler.start()
@@ -24,7 +24,7 @@ def start2():
 def counter_year():
     scheduler = BackgroundScheduler()
     counter_year = CounterTasks()
-    scheduler.add_job(counter_year.avg_year_counter, 'cron', month='1', day='17', hour='15', minute=50,
+    scheduler.add_job(counter_year.avg_year_counter, 'cron', month='1', day='1', hour='1', minute=50,
                       timezone='Asia/Tashkent',
                       id='counteryear_001', replace_existing=True)
 
@@ -34,7 +34,7 @@ def counter_year():
 def counter_season():
     scheduler = BackgroundScheduler()
     counter_season = CounterTasks()
-    scheduler.add_job(counter_season.avg_season_counter, 'cron', month='1,6,9,12', day='17', hour='15', minute=48,
+    scheduler.add_job(counter_season.avg_season_counter, 'cron', month='1,6,9,12', day='17', hour='15', minute=57,
                       timezone='Asia/Tashkent',
                       id='counterseason_001', replace_existing=True)
 
