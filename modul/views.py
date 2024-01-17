@@ -7,7 +7,7 @@ from rest_framework import permissions
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.viewsets import ViewSet, ModelViewSet
-from modul.models import Weather7Daily, Weather24Hourly, Prediction, Modul, Counter, B, CounterSeasons
+from modul.models import Weather7Daily, Weather24Hourly, Prediction, Modul, Counter, B, CounterSeasons, CounterYears
 from uath.models import Model
 from modul.serializers import Weather3DailySerializer, Weather24HourlySerializer, ModulSerializer, \
     CounterSerializer, BSerializer
@@ -82,8 +82,7 @@ class CounterModelViewSet(ModelViewSet):
 
         if params.get('year'):
             if params.get('year'):
-                query = Counter.objects.filter(date__year=str(int(params.get('year'))),
-                                               date__month=1)
+                query = CounterYears.objects.filter(date__year=str(int(params.get('year'))+1))
 
                 serializer = self.serializer_class(query, many=True)
                 return Response(serializer.data, status=200)
