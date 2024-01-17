@@ -121,6 +121,7 @@ class CounterTasks:
         time = timezone.now()
         year = time.year - 1
         month = time.month + 5
+        date = datetime.strftime(f'{year}-{month}-01', '%Y-%m-%d')
         counters = Counter.objects.filter(date__year=year, date__month=1)
         if month == 3:
             queryset = Counter.objects.filter(
@@ -199,7 +200,8 @@ class CounterTasks:
                 namlik=aggregate_qs['namlik'],
                 mex=aggregate_qs['mex'],
                 massiv=i.massiv,
-                date=timezone.now()
+                model=i.model,
+                date=date
             )
         else:
             print('No data')
