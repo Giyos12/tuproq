@@ -9,7 +9,9 @@ import json
 import ee
 import csv
 
-# ee.Initialize()
+service_account = 'tuproq@tuproq.iam.gserviceaccount.com'
+credentials = ee.ServiceAccountCredentials(service_account, 'tuproq-bb60103973b6.json')
+ee.Initialize(credentials)
 
 data = json.load(open('Konturlar.json'))
 data = data['features']
@@ -118,7 +120,7 @@ class CounterTasks:
         }
         time = timezone.now()
         year = time.year
-        month = time.month+2
+        month = time.month + 2
         counters = Counter.objects.filter(date__year=year, date__month=1)
         if month == 3:
             queryset = Counter.objects.filter(
