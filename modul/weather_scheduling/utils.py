@@ -128,7 +128,6 @@ class CounterTasks:
                 Q(date__year=year - 1, date__month=12) |
                 Q(date__year=year, date__month__in=[1, 2])
             )
-            print(len(queryset))
         elif month == 6:
             queryset = Counter.objects.filter(
                 Q(date__year=year, date__month__in=[3, 4, 5])
@@ -143,7 +142,6 @@ class CounterTasks:
             queryset = Counter.objects.filter(
                 Q(date__year=year, date__month__in=[9, 10, 11])
             )
-            print(len(queryset))
         else:
             queryset = []
 
@@ -201,16 +199,16 @@ class CounterTasks:
             year = time.year
             month = time.month - 1
 
-        last_day_of_month = calendar.monthrange(year, month)[1]
-        boshlanish_data = f'{year}-{month}-01'
+        last_day_of_month = calendar.monthrange(year - 1, month - 2)[1]
+        boshlanish_data = f'{year - 1}-{month - 2}-01'
         formatted_date = datetime.strptime(boshlanish_data, '%Y-%m-%d')
-        file_path = write_csv_file(boshlanish_data=f'{year}-{month}-01',
-                                   tugash_data=f'{year}-{month}-{last_day_of_month}')
+        file_path = write_csv_file(boshlanish_data=f'{year - 1}-{month - 2}-01',
+                                   tugash_data=f'{year - 1}-{month - 2}-{last_day_of_month}')
         name = str(time)
         files = {'file': open(file_path, 'rb')}
         data = {'name': name, 'date': formatted_date}
 
-        response = requests.post(url='http://127.0.0.1:8000/api/modul/b/', files=files, data=data)
+        response = requests.post(url='http://husan.airi.uz/api/modul/b/', files=files, data=data)
 
         print(response.status_code)
         print(response.text)
