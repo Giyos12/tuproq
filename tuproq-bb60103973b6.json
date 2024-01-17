@@ -1,0 +1,13 @@
+{
+  "type": "service_account",
+  "project_id": "tuproq",
+  "private_key_id": "bb60103973b6b4bd6fe94d5f6a55306bccbc8d25",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQCflIzFnNahYkgr\n5v2pulMqe+dhUKPnVd55h+jG4l3le/V5dEb7kRCYZ1njWQwt0Oryap0rG+KvI7CF\n5r/rYZho1l2dsa2MsoyaD6X9LSJmhtTja8A5snsPQZIDx0WHVNjv3ElHGqelyQBU\nSzvAXUtw2ULuaxjnU8+3hEzMwQo0aXDUltPS0c9OodthOLsbnSGtZY2QlBvp9tzy\n7DjvTI7RopHWKD2JE26xXtwUwPg407XuLZ5w72U2fFG1uGV536Ddti+Je6PER6YS\nlMmSazeVy4DkO2AGupnP8O/U5Eppl9KPnx/gZ4pOnDqkjqW6dXwtdtK0TZqglu4k\nD/IX8hUPAgMBAAECggEACMZ3u0IsgHFkIJuf5VVQ9AeL8wIm7KQk5nkaFbAB3PgA\nf9LaE9cVUdMC0omKCTJfJInG5eodEuebFrHqsvwufc1dFoWTLgJ/h2eQB5Y4OVdj\nVLR84SY2teFYMOb/7abHyyoAW9tUF+J5ApdbXoMVIsw2knIQXc3f6dhFVOJAE4zP\no6LqSjDSrP/msskdOvQBRsCvE/5Fklt8jSLfnlG30TQoaZjhP9ajoTtykYA96UXs\nihzrG2WB9cPvgh64cfvny6ihGIPzpcLUT3QyxtAusG3Rvz9n3SdmIlcUFPw0JZho\nu/ukUwd5MPVPTEPU6PadB9a+Z5FI0/3RS/rqzK9s4QKBgQDbOO3K1jshDQL+4N3q\nQa+E0ukbsBCIDp2p3YrlDDNu6n/hc5lAQerf6itVA6ZZyBkN2swSssFCZR8opqu+\nqHyv0JVeTm9abPNvKeWS4pCOarVbTguWPqwOFMeQ7ME9oGYrqRbLrGuJYUXfWj0m\nF9h4B51Fl5jpvZiTX9sAJ3/g3wKBgQC6WiMEgQKXo6NoopYt/mIDO2vYRYLTu8Y5\ndn7VtIF3IRd48cEmpoaYWLdPy4szTaOvWV5lAaZ22mclkGC07y0NReKrQdqUswBT\nxQTn8uoCYBKshJmH9ptOfK0hhyyUXYvslqRld7clGAYzZhqoQvFYZ2FiH73oVdTj\n5g4Vk4lh0QKBgQC48HXrQH/xigCU9S9BiNiBvUxax1Wq8mmf+/5I7NoXIE1x7QvE\nYde7vtl/huy3oU9BmOvAenz/fj+jE7ifx5Qo3lakkJbwOinEBhxepjQ9cVg+BsFP\npt+PoYgagyEi1EZdXvCUMokmBKHlo0Mi98rut72+D/44cnJdIeinYKtJEQKBgAG5\nH6XFA58fVj17c2QNfB6HiCHB0snebKDPZbDYMHJHjg4CPkT7OTdjap6ERU8+IotW\nijbo4v8qWdXRFfPWWlZLFSN8QmcpmJEtuzPh3SQUe1e5Ciplr130bS1oMJNWohqX\n8gE2MC1ZoYUMJqbzp4OnwRDFNl5VnNhWoj601IphAoGBAL614HAr6EZXAAfJc9VA\nXxElBEr5YuORkemtfSu6hP9PKXh06v1nHyrCFYgQVctiO6der9vKahCVGwUPt8Kn\n5B7CAEo4kdTYRCtxPtKhPft5qloOPNCfvPb3h61CintKzW2jVx4F5D8TAr/ruGKj\n70rsa8ergxpOkMJTzK0cTOUR\n-----END PRIVATE KEY-----\n",
+  "client_email": "tuproq@tuproq.iam.gserviceaccount.com",
+  "client_id": "102426349583377881205",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/tuproq%40tuproq.iam.gserviceaccount.com",
+  "universe_domain": "googleapis.com"
+}

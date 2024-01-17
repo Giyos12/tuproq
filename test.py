@@ -49,9 +49,10 @@
 #
 import ee
 
-ee.Authenticate()
-
-ee.Initialize(project='tuproq')
+service_account = 'tuproq@tuproq.iam.gserviceaccount.com'
+credentials = ee.ServiceAccountCredentials(service_account, 'tuproq-bb60103973b6.json')
+ee.Initialize(credentials)
 
 if __name__ == '__main__':
-    pass
+    print(ee.Initialize(credentials)
+          )
