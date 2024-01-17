@@ -119,8 +119,8 @@ class CounterTasks:
             12: 'autumn'
         }
         time = timezone.now()
-        year = time.year
-        month = time.month + 2
+        year = time.year - 1
+        month = time.month + 5
         counters = Counter.objects.filter(date__year=year, date__month=1)
         if month == 3:
             queryset = Counter.objects.filter(
@@ -132,6 +132,7 @@ class CounterTasks:
             queryset = Counter.objects.filter(
                 Q(date__year=year, date__month__in=[3, 4, 5])
             )
+            print(len(queryset))
         elif month == 9:
             queryset = Counter.objects.filter(
                 Q(date__year=year, date__month__in=[6, 7, 8])
