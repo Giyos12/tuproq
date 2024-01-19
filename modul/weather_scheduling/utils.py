@@ -102,7 +102,7 @@ class CounterTasks:
                     namlik=round(aggregate_qs['namlik']),
                     mex=round(aggregate_qs['mex']),
                     massiv=i.massiv,
-                    date=timezone.now()
+                    date=datetime.strptime(f'{year}-01-01', '%Y-%m-%d')
                 )
         else:
             print('No data')
