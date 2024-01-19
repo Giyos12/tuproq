@@ -65,8 +65,8 @@ class CounterTasks:
 
     @staticmethod
     def avg_year_counter():
-        year = timezone.now().year-1
-        counters = Counter.objects.filter(date__year=year - 1, date__month=12)
+        year = timezone.now().year
+        counters = Counter.objects.filter(date__year=year - 1, date__month=1)
         queryset = Counter.objects.filter(date__year=year - 1)
         if counters:
             for i in counters:
@@ -102,7 +102,7 @@ class CounterTasks:
                     namlik=round(aggregate_qs['namlik']),
                     mex=round(aggregate_qs['mex']),
                     massiv=i.massiv,
-                    date=datetime.strptime(f'{year}-01-01', '%Y-%m-%d')
+                    date=timezone.now()
                 )
         else:
             print('No data')
