@@ -65,10 +65,9 @@ class CounterTasks:
 
     @staticmethod
     def avg_year_counter():
-        year = timezone.now().year
-        counters = Counter.objects.filter(date__year=year - 1, date__month=1)
+        year = timezone.now().year-1
+        counters = Counter.objects.filter(date__year=year - 1, date__month=12)
         queryset = Counter.objects.filter(date__year=year - 1)
-        print(len(queryset))
         if counters:
             for i in counters:
                 aggregate_qs = queryset.filter(counter_id=i.counter_id).aggregate(
@@ -119,8 +118,8 @@ class CounterTasks:
             12: 'autumn'
         }
         time = timezone.now()
-        year = time.year - 1
-        month = time.month + 2
+        year = time.year
+        month = time.month
         date = datetime.strptime(f'{year}-{month}-01', '%Y-%m-%d')
         counters = Counter.objects.filter(date__year=year, date__month=1)
         if month == 3:
@@ -193,23 +192,21 @@ class CounterTasks:
         time = datetime.now()
 
         if time.month == 1:
-            year = time.year - 1
+            year = time.year
             month = 12
         else:
             year = time.year
             month = time.month - 1
 
-        last_day_of_month = calendar.monthrange(year - 1, month - 2)[1]
-        boshlanish_data = f'{year - 1}-{month - 2}-01'
+        last_day_of_month = calendar.monthrange(year, month)[1]
+        boshlanish_data = f'{year}-{month}-01'
         formatted_date = datetime.strptime(boshlanish_data, '%Y-%m-%d')
-        file_path = write_csv_file(boshlanish_data=f'{year - 1}-{month - 2}-01',
-                                   tugash_data=f'{year - 1}-{month - 2}-{last_day_of_month}')
+        file_path = write_csv_file(boshlanish_data=f'{year}-{month}-01',
+                                   tugash_data=f'{year}-{month}-{last_day_of_month}')
         name = str(time)
         files = {'file': open(file_path, 'rb')}
         data = {'name': name, 'date': formatted_date}
 
         response = requests.post(url='http://husan.airi.uz/api/modul/b/', files=files, data=data)
 
-        print(response.status_code)
-        print(response.text)
         return JsonResponse({'success': 'Success'}, status=200)
