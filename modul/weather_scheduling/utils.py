@@ -207,6 +207,6 @@ class CounterTasks:
         files = {'file': open(file_path, 'rb')}
         data = {'name': name, 'date': formatted_date}
 
-        response = requests.post(url='http://husan.airi.uz/api/modul/b/', files=files, data=data)
+        requests.post(url='http://husan.airi.uz/api/modul/b/', files=files, data=data)
 
         return JsonResponse({'success': 'Success'}, status=200)
