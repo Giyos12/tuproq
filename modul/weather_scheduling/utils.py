@@ -196,7 +196,7 @@ class CounterTasks:
             month = 12
         else:
             year = time.year
-            month = time.month - 2
+            month = time.month - 3
 
         last_day_of_month = calendar.monthrange(year, month)[1]
         boshlanish_data = f'{year}-{month}-01'
