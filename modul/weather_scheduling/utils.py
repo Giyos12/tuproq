@@ -119,7 +119,7 @@ class CounterTasks:
         }
         time = timezone.now()
         year = time.year
-        month = time.month-2
+        month = time.month
         date = datetime.strptime(f'{year}-{month}-01', '%Y-%m-%d')
         counters = Counter.objects.filter(date__year=year, date__month=1)
         if month == 3:
