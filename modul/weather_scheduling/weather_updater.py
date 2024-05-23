@@ -6,7 +6,7 @@ from .utils import CounterTasks
 def start():
     scheduler = BackgroundScheduler()
     weather = WeatherViewSet()
-    scheduler.add_job(weather.get_weekly_weather, 'cron', hour=0, minute=0, second=0, timezone='UTC',
+    scheduler.add_job(weather.get_weekly_weather, 'cron', hour=7, minute=35, second=0, timezone='Asia/Tashkent',
                       id='weatherweakly_001', replace_existing=True)
 
     scheduler.start()
@@ -15,7 +15,7 @@ def start():
 def start2():
     scheduler = BackgroundScheduler()
     weather = WeatherViewSet()
-    scheduler.add_job(weather.get_hourly_weather, 'cron', hour=0, minute=0, second=0, timezone='UTC',
+    scheduler.add_job(weather.get_hourly_weather, 'cron', hour=7, minute=35, second=0, timezone='Asia/Tashkent',
                       id='weatherhourly_001', replace_existing=True)
 
     scheduler.start()
