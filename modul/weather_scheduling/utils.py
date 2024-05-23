@@ -119,7 +119,7 @@ class CounterTasks:
         }
         time = timezone.now()
         year = time.year
-        month = time.month
+        month = time.month-2
         date = datetime.strptime(f'{year}-{month}-01', '%Y-%m-%d')
         counters = Counter.objects.filter(date__year=year, date__month=1)
         if month == 3:
@@ -196,7 +196,7 @@ class CounterTasks:
             month = 12
         else:
             year = time.year
-            month = time.month - 3
+            month = time.month - 1
 
         last_day_of_month = calendar.monthrange(year, month)[1]
         boshlanish_data = f'{year}-{month}-01'
