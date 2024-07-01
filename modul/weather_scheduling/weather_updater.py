@@ -44,7 +44,7 @@ def counter_season():
 def counter_month():
     scheduler = BackgroundScheduler()
     counter_month = CounterTasks()
-    scheduler.add_job(counter_month.avg_monthly_counter, 'cron', day='1', hour='16', minute="50",
+    scheduler.add_job(counter_month.avg_monthly_counter, 'cron', day='1', hour='17', minute="20",
                       timezone='Asia/Tashkent',
                       id='countermonth_001', replace_existing=True)
 
